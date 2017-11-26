@@ -1,82 +1,125 @@
-# MEAN Session 12
+# MEAN Session 8
 
 ## Homework
-Homework Update: The goal is to make on of the pirate names clickable and display a notificiation below the list that includes the `pirate.name`. There are notes below (in the Notes section) and a working sample in the dev branch of this repo.
+Homework: The goal is to make on of the pirate names clickable and display a notificiation below the list that includes the `pirate.name`. There are notes below (in the Notes section) and a working sample in the dev branch of this repo.
 
 ## Reading
-[Angular Quickstart Tutorial](https://angular.io/docs/ts/latest/)
+[Angular Quickstart Tutorial](https://angular.io/guide/quickstart)
 
-### React Homework
+### Typescript Demo
 
-Create a dropdown for the pirate selector:
+`npm install -g typescript`
 
-on dev2 branch of session 11 - Duel.js:
+Stub html file:
 
-was -
-```
-        <input
-          id='piratename'
-          placeholder='Pirate Name'
-          type='text'
-          autoComplete='off'
-          value={this.state.username}
-          onChange={this.handleChange}
-          />
+```html
+<!DOCTYPE html>
+<html>
+    <head><title>TypeScript Greeter</title></head>
+    <body>
+        <script src="greeter.js"></script>
+    </body>
+</html>
 ```
 
-became -
+Create greeter.ts:
 
-```
-render(){
-    return (
-      <form className='column' onSubmit={this.handleSubmit}>
-        <label className='header' htmlFor='piratename'>
-        {this.props.label}
-        </label>
-          <select 
-          value={this.state.piratename} 
-          onChange={this.handleChange}>
-              {
-              Object.keys(this.state.pirates).map( (key) => 
-                <option 
-                  key={key} 
-                  value={this.state.pirates[key].piratename}>
-                  {this.state.pirates[key].piratename}
-                </option>
-              )
-            }
-          </select>
+```js
+function greeter(person) {
+    return `Hello, ${person}`;
+}
 
-          <button
-          className='button'
-          type='submit'
-          disabled={!this.state.piratename}>
-            Submit
-          </button>
-      </form>
-    )
-  }
+var user = "Jane User";
+
+document.body.innerHTML = greeter(user);
 ```
 
-```
-  handleChange(event){
-    const value = event.target.value
-    this.setState(function(){
-      return {
-        piratename: value
-      }
-    })
-  }
+Compile it on the command line with `$ tsc greeter.ts`
+
+#### Type annotations
+
+```js
+function greeter(person: string) {
+    return `Hello, ${person}`;
+}
+
+const user = "Jane User";
+
+document.body.innerHTML = greeter(user);
 ```
 
-needed to make state available -
+Type annotations in TypeScript are lightweight ways to record the intended contract of the function or variable. In this case, we intend the greeter function to be called with a single string parameter.
 
+Try changing the call greeter to pass an array instead:
+
+```js
+function greeter(person: string) {
+    return `Hello, ${person}`;
+}
+
+var user = [0, 1, 2];
+
+document.body.innerHTML = greeter(user);
 ```
-  this.state = {
-    piratename: '',
-    pirates: {}
+
+Re-compiling, you’ll now see an error.
+
+`$ tsc greeter.ts`
+
+The greeter.js file is still created. TypeScript is warning that your code will likely not run as expected. This will typically occur in your editor.
+
+#### Interfaces. 
+
+An interface that describes an object:
+
+```js
+interface Person {
+    firstName: string;
+    lastName: string;
+}
+
+function greeter(person: Person) {
+    return `Hello,  ${person.firstName} ${person.lastName}`;
+}
+
+var user = { firstName: "John", lastName: "Superuser" };
+
+document.body.innerHTML = greeter(user);
+```
+
+`$ tsc greeter.ts`
+
+#### Classes
+
+Create a Student class with a constructor and a few public fields. Notice that classes and interfaces play well together
+
+```js
+class Student {
+    fullName: string;
+    constructor(public firstName, public middleInitial, public lastName) {
+        this.fullName = `${firstName} ${middleInitial} ${lastName}`;
     }
+}
+
+interface Person {
+    firstName: string;
+    middleInitial: string;
+    lastName: string;
+}
+
+function greeter(person : Person) {
+    return `Yo, ${person.firstName} ${person.middleInitial}. ${person.lastName}`;
+}
+
+var user = new Student("Jane", "M", "User");
+
+document.body.innerHTML = greeter(user);
 ```
+
+`$ tsc greeter.ts`
+
+
+
 
 ## Angular 2
 
@@ -90,117 +133,9 @@ needed to make state available -
 
 App is at `http://localhost:4200/`
 
-We can use ES5, ES2016, or TypeScript to write Angular 2. 
+We can use ES5, ES6, or TypeScript to write Angular 2. 
 
-We will write all code samples with [TypeScript](http://www.typescriptlang.org). (Like SASS is to CSS - added features.)
-
-### Typescript
-
-`npm install -g typescript`
-
-greeter.ts:
-
-```
-function greeter(person) {
-    return "Hello, " + person;
-}
-
-var user = "Jane User";
-
-document.body.innerHTML = greeter(user);
-```
-
-`$ tsc greeter.ts`
-
-String type annotations:
-
-```
-function greeter(person: string) {
-    return "Hello, " + person;
-}
-
-const user = "Jane User";
-
-document.body.innerHTML = greeter(user);
-```
-
-Type annotations in TypeScript are lightweight ways to record the intended contract of the function or variable. In this case, we intend the greeter function to be called with a single string parameter.
-
-Try changing the call greeter to pass an array instead:
-
-```
-function greeter(person: string) {
-    return "Hello, " + person;
-}
-
-var user = [0, 1, 2];
-
-document.body.innerHTML = greeter(user);
-```
-
-`$ tsc greeter.ts`
-
-The greeter.js file is still created. TypeScript is warning that your code will likely not run as expected. This will typically occur in your editor.
-
-Interfaces. An interface that describes objects:
-
-```
-interface Person {
-    firstName: string;
-    lastName: string;
-}
-
-function greeter(person: Person) {
-    return "Hello, " + person.firstName + " " + person.lastName;
-}
-
-var user = { firstName: "Jane", lastName: "User" };
-
-document.body.innerHTML = greeter(user);
-```
-
-`$ tsc greeter.ts`
-
-Classes
-
-Create a Student class with a constructor and a few public fields. Notice that classes and interfaces play well together
-
-```
-class Student {
-    fullName: string;
-    constructor(public firstName, public middleInitial, public lastName) {
-        this.fullName = firstName + " " + middleInitial + " " + lastName;
-    }
-}
-
-interface Person {
-    firstName: string;
-    lastName: string;
-}
-
-function greeter(person : Person) {
-    return "Hello, " + person.firstName + " " + person.lastName;
-}
-
-var user = new Student("Jane", "M.", "User");
-
-document.body.innerHTML = greeter(user);
-```
-
-`$ tsc greeter.ts`
-
-```
-<!DOCTYPE html>
-<html>
-    <head><title>TypeScript Greeter</title></head>
-    <body>
-        <script src="greeter.js"></script>
-    </body>
-</html>
-```
-
-
-
+We will write all code samples with [TypeScript](http://www.typescriptlang.org). (Like SASS is to CSS - a superset with added features.)
 
 
 ### app.module.ts
