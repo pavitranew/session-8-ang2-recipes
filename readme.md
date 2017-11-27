@@ -1,12 +1,16 @@
 # MEAN Session 8
 
+## ES6 Classes
+
+See `_classes`
+
 <!-- ## Homework
 Homework: The goal is to make one of the pirate names clickable and display a notificiation below the list that includes the `pirate.name`. There are notes below (in the Notes section) and a working sample in the dev branch of this repo. -->
 
 <!-- ## Reading
 [Angular Quickstart Tutorial](https://angular.io/guide/quickstart) -->
 
-### Typescript Demo
+## Typescript Demo
 
 `npm install -g typescript`
 
