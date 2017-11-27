@@ -1,8 +1,25 @@
-## Prototypal inheritance
+# Classes
 
-cd into `_classes`, run `npm install` and `npm run start`
+## Prototypal inheritance Review
 
-http://localhost:3000/1-inheritance.html
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Prototypal Inheritance</title>
+</head>
+<body>
+<script>
+  function Car(model, make) {
+    this.model = model;
+    this.make = make;
+  }
+  const expo = new Car('Expo', 'Ford');
+</script>
+</body>
+</html>
+```
 
 We have a constructor function:
 
@@ -15,30 +32,32 @@ function Car(model, make) {
 
 and a car with properties.
 
-```bash
-$ expo
+```js
+> expo
 ```
 
-Prototypal inheritance - methods on the original constructor will be inherited.
+### Prototypal inheritance 
 
-### Example: Array Methods
+Methods on the original constructor will be inherited.
+
+Example: Array Methods
 
 Create an array: 
 
-```
+```js
 > const names = ['John', 'Henry']
 ```
 
 Examine the Array - Array prototypes
 
-```
+```js
 > names.join(', ')
 > names.pop()
 ```
 
 Add a prototype:
 
-```
+```js
 Car.prototype.drive = function() {
     console.log(`Vroom vroom! I'm a ${this.model}`);
 };
@@ -46,11 +65,11 @@ Car.prototype.drive = function() {
 
 Add a second car:
 
-```
+```js
 const miata = new Car('Miata', 'Mazda');
 ```
 
-```
+```js
 > miata.drive()
 > expo.drive()
 ```
@@ -59,35 +78,64 @@ expo inherits the prototype.
 
 Override with (add after)
 
-```
+```js
 Car.prototype.drive = function() {
     console.log(`Vroom vroom 🚗 🚗 🚗! I'm a ${this.model} and I'm a ${this.make}`);
 };
 ```
 
-```
+```js
 > expo.drive()
 ```
 
 Add an additional prototype:
 
-```
+```js
 Car.prototype.stop = function() {
     console.log(`Screech! 🚒 🚑 🚓`);
 };
 ```
 
-```
+```js
 > expo.stop()
 ```
 
 ### Classes
 
-http://localhost:3000/2-classes.html
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Classes</title>
+</head>
+<body>
+  
+  <script>
+    class Car {
+      constructor(model, make) {
+        this.model = model;
+        this.make = make;
+      }
+      drive() {
+        console.log(`Vroom vroom 🚗 🚗 🚗! I'm a ${this.model} and I'm a ${this.make}`);
+      }
+      stop() {
+        console.log(`Screech! 🚒 🚑 🚓`);
+      }
+    }
+
+    const expo = new Car('Expo', 'Ford');
+    const miata = new Car('Miata', 'Mazda');
+
+  </script>
+</body>
+</html>
+```
 
 Note syntax - (esp. lack of comma):
 
-```
+```js
 class Car {
   constructor(model, make) {
     this.model = model;
@@ -102,7 +150,7 @@ class Car {
 }
 ```
 
-```
+```js
 > expo
 > expo.drive()
 > expo.stop()
@@ -110,13 +158,13 @@ class Car {
 
 ### Static Methods
 
-```
+```js
 static info() {
   console.log('I\'m a static method, cars only need apply' );
 }
 ```
 
-```
+```js
 > expo.info()
 > Car.info()
 > expo
@@ -134,7 +182,7 @@ Array.of and the spread operator:
 
 `ul>li*4>a[href="#"]{link}`
 
-```
+```js
 > Array.of(1,2,3,4)
 > const links = document.querySelectorAll('li')
 > Array.of(links)
@@ -143,20 +191,20 @@ Array.of and the spread operator:
 
 But .of is not inerited
 
-```
+```js
 > numbers = [6,7,8,9]
 > numbers.of(1,2,3,4)
 ```
 
 e.g. static method - Cars only:
 
-```
+```js
 Car.info()
 ```
 
 ### Getters and Setters
 
-```
+```js
 get description() {
   return `${this.model} is a ${this.make} type of car`;
 }
@@ -164,37 +212,70 @@ get description() {
 
 * Not a method (no braces when calling)
 
-```
+```js
 > expo.description
 ```
 
 Setters
 
-```
+```js
 set nicknames(value) {
   this.nick = value.trim();
 }
 ```
 
-```
+```js
 expo.nicknames = '   fluffy   '
 ```
 
-```
+```js
 get nicknames() {
   return this.nick.toUpperCase();
 }
 ```
 
-```
+```js
 expo.nicknames
 ```
 
 ### Extending Classes
 
-http://localhost:3000/3-extending-classes.html
+```html
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+  <meta charset="UTF-8">
+  <title>Extending Classes</title>
+</head>
+
+<body>
+  <script>
+    class Animal {
+      constructor(name) {
+        this.name = name;
+        this.thirst = 100;
+        this.belly = [];
+      }
+      drink() {
+        this.thirst -= 10;
+        return this.thirst;
+      }
+      eat(food) {
+        this.belly.push(food);
+        return this.belly;
+      }
+    }
+    
+    const rhino = new Animal('Rhiney');
+
+  </script>
+</body>
+
+</html>
 ```
+
+```js
 > rhino
 > rhino.eat('lilies')
 > rhino.eat('hunters')
@@ -209,7 +290,7 @@ We want to extend our Animal class to include a subclass dogs.
 
 This will not work:
 
-```
+```js
 class Dog extends Animal {
   constructor(name, breed) {
     this.name = name;
@@ -220,7 +301,7 @@ class Dog extends Animal {
 
 We need to call `super` first and here, super needs a name:
 
-```
+```js
 class Dog extends Animal {
   constructor(name, breed) {
     super(name);
@@ -229,17 +310,17 @@ class Dog extends Animal {
 }
 ```
 
-```
+```js
 const yorik = new Dog('Yorik', 'Terrier');
 ```
 
-```
+```js
 > yorik
 ```
 
 Add a bark method:
 
-```
+```js
 class Dog extends Animal {
   constructor(name, breed) {
     super(name);
@@ -253,13 +334,52 @@ class Dog extends Animal {
 
 ### Extending Arrays
 
-http://localhost:3000/4-extending-arrays.html
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Extending</title>
+</head>
+
+<body>
+  <script>
+    class MovieCollection extends Array {
+      constructor(name, ...items) {
+        super(...items);
+        this.name = name;
+      }
+      add(movie) {
+        this.push(movie);
+      }
+      topRated(limit = 10) {
+        return this.sort((a, b) => (a.stars > b.stars ? -1 : 1)).slice(0, limit);
+      }
+    }
+
+    const movies = new MovieCollection('My Favorite Movies',
+      { name: 'Sausage Party', stars: 10 },
+      { name: 'Star Wars Trek', stars: 1 },
+      { name: 'Virgin Suicides', stars: 7 },
+      { name: 'Alice in the Cities', stars: 8 }
+    );
+
+    movies.add({ name: 'Titanic', stars: 5 });
+
+    console.table(movies)
+
+  </script>
+</body>
+
+</html>
+```
 
 Making our own classes modelled after Array.
 
 Start off with an array with a property:
 
-```
+```js
 const movies = new MovieCollection('My Favorite Movies',
   { name: 'Bee Movie', stars: 10 },
   { name: 'Star Wars Trek', stars: 1 },
@@ -282,20 +402,20 @@ class MovieCollection extends Array {
 
 Super calls the Array prototype with a spread operator.
 
-```
+```js
 > movies[4]
 > movies.name
 ```
 
 We have an Array that also has properties (possible because in JS, Arrays are objects):
 
-```
+```js
 typeof [1,2]
 ```
 
 Methods using the array prototype methods can be added:
 
-```
+```js
 add(movie) {
   this.push(movie);
 }
@@ -303,7 +423,7 @@ add(movie) {
 
 `for... in`:
 
-```
+```js
 > for (const movie in movies){ console.log(movie) }
 ```
 
@@ -311,21 +431,21 @@ returns the key _and_ the name property.
 
 More useful will be `for... of` which returns only the array:
 
-```
-> for (const movie of movies){ console.log(movie) }
+```js
+> for (const movie of movies) { console.log(movie) }
 ```
 
 We get the object (not the key) and the property (name) is not shown. 
 
 N.B. for of loops skip over the properties.
 
-```
+```js
 > movies.topRated()
 ```
 
 topRated:
 
-```
+```js
 topRated() {
   const ordered = this.sort(function(firstMovie, secondMovie){
     if(firstMovie.stars > secondMovie.stars){
@@ -337,17 +457,17 @@ topRated() {
 }
 ```
 
-```
+```js
 > console.table(movies.topRated())
 ```
 
-```
+```js
 > console.table(movies.topRated(2))
 ```
 
 Aside: we will be using this in a future exercise 
 
-```
+```js
 Object.keys(movies)
 ```
 
