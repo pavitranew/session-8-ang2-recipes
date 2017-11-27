@@ -135,7 +135,7 @@ App is at `http://localhost:4200/`
 
 We can use ES5, ES6, or TypeScript to write Angular 2. 
 
-We will write all code samples with [TypeScript](http://www.typescriptlang.org). (Like SASS is to CSS - a superset with added features.)
+We will write all code samples with [TypeScript](http://www.typescriptlang.org). Like SASS is to CSS - a Typescript is a superset of JavaScript with added features.
 
 
 ### app.module.ts

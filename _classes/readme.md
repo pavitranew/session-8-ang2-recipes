@@ -21,7 +21,7 @@
 </html>
 ```
 
-We have a constructor function:
+Includes a constructor function:
 
 ```js
 function Car(model, make) {
@@ -31,6 +31,8 @@ function Car(model, make) {
 ```
 
 and a car with properties.
+
+Run in the browser's console:
 
 ```js
 > expo
@@ -48,7 +50,7 @@ Create an array:
 > const names = ['John', 'Henry']
 ```
 
-Examine the Array - Array prototypes
+Examine the Array. Note the Array prototypes, e.g.:
 
 ```js
 > names.join(', ')
@@ -60,7 +62,7 @@ Add a prototype:
 ```js
 Car.prototype.drive = function() {
     console.log(`Vroom vroom! I'm a ${this.model}`);
-};
+}
 ```
 
 Add a second car:
@@ -81,7 +83,7 @@ Override with (add after)
 ```js
 Car.prototype.drive = function() {
     console.log(`Vroom vroom 🚗 🚗 🚗! I'm a ${this.model} and I'm a ${this.make}`);
-};
+}
 ```
 
 ```js
@@ -93,7 +95,7 @@ Add an additional prototype:
 ```js
 Car.prototype.stop = function() {
     console.log(`Screech! 🚒 🚑 🚓`);
-};
+}
 ```
 
 ```js
@@ -133,22 +135,7 @@ Car.prototype.stop = function() {
 </html>
 ```
 
-Note syntax - (esp. lack of comma):
-
-```js
-class Car {
-  constructor(model, make) {
-    this.model = model;
-    this.make = make;
-  }
-  drive() {
-    console.log(`Vroom vroom 🚗🚗🚗! I'm a ${this.model} and I'm a ${this.make}`);
-  }
-  stop() {
-    console.log(`Screech! 🚒🚑🚓`);
-  }
-}
-```
+In the console:
 
 ```js
 > expo
@@ -225,7 +212,7 @@ set nicknames(value) {
 ```
 
 ```js
-expo.nicknames = '   fluffy   '
+expo.nicknames = '   grumbler   '
 ```
 
 ```js
@@ -284,9 +271,7 @@ expo.nicknames
 
 #### Super
 
-Calls the thing that you are extending first.
-
-We want to extend our Animal class to include a subclass dogs.
+We want to extend our Animal class to include a subclass: dogs which will include a breed.
 
 This will not work:
 
@@ -298,6 +283,8 @@ class Dog extends Animal {
   }
 }
 ```
+
+Super calls the thing (Animal) that you are extending first.
 
 We need to call `super` first and here, super needs a name:
 
@@ -327,7 +314,7 @@ class Dog extends Animal {
     this.breed = breed;
   }
   bark() {
-    console.log(`Bark bark my name is ${this.name} and I\'m a dog`);
+    console.log(`Bark bark my name is ${this.name} and I\'m a ${this.breed}`);
   }
 }
 ```
@@ -375,16 +362,16 @@ class Dog extends Animal {
 </html>
 ```
 
-Making our own classes modelled after Array.
+Making our own classes modelled after Array so they inheret all prototypes of an array.
 
 Start off with an array with a property:
 
 ```js
 const movies = new MovieCollection('My Favorite Movies',
-  { name: 'Bee Movie', stars: 10 },
+  { name: 'Sausage Party', stars: 10 },
   { name: 'Star Wars Trek', stars: 1 },
   { name: 'Virgin Suicides', stars: 7 },
-  { name: 'King of the Road', stars: 8 }
+  { name: 'Alice in the Cities', stars: 8 }
 );
 ```
 
@@ -407,7 +394,7 @@ Super calls the Array prototype with a spread operator.
 > movies.name
 ```
 
-We have an Array that also has properties (possible because in JS, Arrays are objects):
+We have an Array that also has properties (possible because in JS, Arrays are objects) e.g:
 
 ```js
 typeof [1,2]
@@ -446,14 +433,22 @@ N.B. for of loops skip over the properties.
 topRated:
 
 ```js
-topRated() {
-  const ordered = this.sort(function(firstMovie, secondMovie){
-    if(firstMovie.stars > secondMovie.stars){
+topRated(limit = 10) {
+  return this.sort( function(firstItem, secondItem) {
+    if (firstItem.stars > firstItem.stars){
       return 1
     } else {
-      return -1
+      return -1;
     }
-    })
+  }).slice(0, limit);
+}
+```
+
+Refactored with a ternary:
+
+```js
+topRated(limit = 10) {
+  return this.sort((a, b) => (a.stars > b.stars ? -1 : 1)).slice(0, limit);
 }
 ```
 
@@ -464,6 +459,7 @@ topRated() {
 ```js
 > console.table(movies.topRated(2))
 ```
+
 
 Aside: we will be using this in a future exercise 
 
