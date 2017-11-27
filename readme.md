@@ -228,7 +228,7 @@ Which uses the selector in the html file:
 
 ```
 
-Note: no ng-app.
+Note: no `ng-app`, `<base...>` tag.
 
 ### Angular 2 Directives
 
