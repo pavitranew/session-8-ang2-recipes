@@ -1,5 +1,5 @@
 # Classes
-
+ 
 ## Prototypal inheritance Review
 
 ```html
@@ -21,7 +21,7 @@
 </html>
 ```
 
-Includes a constructor function:
+Include a *constructor* function:
 
 ```js
 function Car(model, make) {
@@ -159,9 +159,9 @@ static info() {
 
 Inspect the expo prototype.
 
-A static method is similar to Array.of - it is not inherited.
+A static method is *not* inherited.
 
-### Static methods on an Array
+<!-- ### Static methods on an Array
 
 Array.of and the spread operator:
 
@@ -187,7 +187,7 @@ e.g. static method - Cars only:
 
 ```js
 Car.info()
-```
+``` -->
 
 ### Getters and Setters
 
@@ -284,6 +284,10 @@ class Dog extends Animal {
 }
 ```
 
+```js
+const yorik = new Dog('Yorik', 'Terrier');
+```
+
 Super calls the thing (Animal) that you are extending first.
 
 We need to call `super` first and here, super needs a name:
@@ -298,12 +302,10 @@ class Dog extends Animal {
 ```
 
 ```js
-const yorik = new Dog('Yorik', 'Terrier');
-```
-
-```js
 > yorik
 ```
+
+Examine the heirarchy in the inspector.
 
 Add a bark method:
 
@@ -379,12 +381,13 @@ We create a class _off_ the Array.
 
 Adding name and using a spread operator to add the items:
 
-```
+```js
 class MovieCollection extends Array {
   constructor(name, ...items) {
     super(...items);
     this.name = name;
   }
+}
 ```
 
 Super calls the Array prototype with a spread operator.
@@ -414,7 +417,7 @@ add(movie) {
 > for (const movie in movies){ console.log(movie) }
 ```
 
-returns the key _and_ the name property.
+returns the key _and_ the name property. The for...in statement iterates over the *enumerable* properties of an object.
 
 More useful will be `for... of` which returns only the array:
 
@@ -422,13 +425,9 @@ More useful will be `for... of` which returns only the array:
 > for (const movie of movies) { console.log(movie) }
 ```
 
-We get the object (not the key) and the property (name) is not shown. 
+We get the object (not the key) and the property (name) is not shown. The for...of statement creates a loop iterating over *iterable* objects
 
 N.B. for of loops skip over the properties.
-
-```js
-> movies.topRated()
-```
 
 topRated:
 
@@ -442,6 +441,10 @@ topRated(limit = 10) {
     }
   }).slice(0, limit);
 }
+```
+
+```js
+> movies.topRated()
 ```
 
 Refactored with a ternary:
