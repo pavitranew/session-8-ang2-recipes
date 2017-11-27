@@ -1,16 +1,12 @@
 # MEAN Session 8
 
-## ES6 Classes
-
-See `_classes`
-
 <!-- ## Homework
 Homework: The goal is to make one of the pirate names clickable and display a notificiation below the list that includes the `pirate.name`. There are notes below (in the Notes section) and a working sample in the dev branch of this repo. -->
 
 <!-- ## Reading
 [Angular Quickstart Tutorial](https://angular.io/guide/quickstart) -->
 
-## Typescript Demo
+### Typescript Demo
 
 `npm install -g typescript`
 
@@ -33,14 +29,16 @@ function greeter(person) {
     return `Hello, ${person}`;
 }
 
-var user = "Jane User";
+const user = "Jane User";
 
 document.body.innerHTML = greeter(user);
 ```
 
-Compile it on the command line with `$ tsc greeter.ts`
+Compile it on the command line with `$ tsc greeter.ts` and examine the differences.
 
 #### Type annotations
+
+`:string`
 
 ```js
 function greeter(person: string) {
@@ -86,7 +84,7 @@ function greeter(person: Person) {
     return `Hello,  ${person.firstName} ${person.lastName}`;
 }
 
-var user = { firstName: "John", lastName: "Superuser" };
+const user = { firstName: "John", lastName: "Superuser" };
 
 document.body.innerHTML = greeter(user);
 ```
@@ -228,7 +226,7 @@ Which uses the selector in the html file:
 
 ```
 
-Note: no `ng-app`, `<base...>` tag.
+Note: no ng-app.
 
 ### Angular 2 Directives
 
