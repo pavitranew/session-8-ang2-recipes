@@ -144,27 +144,26 @@ We will write all code samples with [TypeScript](http://www.typescriptlang.org).
 
 Angular modules
 
-```
+```js
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+
 
 import { AppComponent } from './app.component';
+
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
-    BrowserModule,
-    FormsModule,
-    HttpModule
+    BrowserModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
 ```
 
 Note: 
@@ -183,7 +182,7 @@ Note:
 
 Contains the application logic that controls a portion or region of the view
 
-```
+```js
 import { Component } from '@angular/core';
 
 @Component({
@@ -192,13 +191,17 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app works!';
+  title = 'app';
 }
 ```
 
 Note: `selector` is the tag. In Angular 1 this was a component declaration e.g. `appRoot`
 
 The @Component decorates (provides metadata to) the exported component. 
+
+TemplateUrl, styleUrls and Selector - the directive to insert the compoent in the html
+
+Components are created, updated and detroyed during ht eapplication lifecycle. We can use this lifecycle to perform actions at each moment via optional lifecycle hooks such as ngOnInit().
 
 ### main.ts
 
@@ -208,19 +211,19 @@ The kickoff point for the application:
 
 Which uses the selector in the html file:
 
-```
+```html
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Stories</title>
+  <title>Pirates</title>
   <base href="/">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
-  <app-root>Loading...</app-root>
+  <app-root></app-root>
 </body>
 </html>
 
@@ -236,41 +239,256 @@ Structural directives contain a *. They are replacements for [html5 native templ
 
 *ngFor, *ngIf
 
-#### Example
+#### Generating Components with the Cli
 
-Try `ng generate component vessels`
+Try `ng generate component components/vessels`
 
-bootstrap with the new component in app.module:
+Creates a components folder with a vessels component that consists of:
 
-```
+* vessels.component.ts
+* vessels.component.html
+* vessels.component.css
+* vessels.component.spec.ts
+
+*and* adds that component to app.module.ts:
+
+```js
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+
 
 import { AppComponent } from './app.component';
+// NEW!
 import { VesselsComponent } from './vessels/vessels.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
+    // NEW!
     VesselsComponent
   ],
   imports: [
-    BrowserModule,
-    FormsModule,
-    HttpModule
+    BrowserModule
   ],
   providers: [],
-  bootstrap: [VesselsComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
+```
+
+Note the selector in vessels.component: `app-vessels`.
+
+Edit app.component.html to use this:
+
+```html
+<app-vessels></app-vessels>
+```
+
+vessels.component - simplify the class statement a bit and add a few variables:
+
+```js
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-vessels',
+  templateUrl: './vessels.component.html',
+  styleUrls: ['./vessels.component.css']
+})
+export class VesselsComponent {
+
+  name = 'John Doe'
+  age = 35
+
+}
 
 ```
 
-vessels.component:
+Edit the vessels.component.html (string interpolation):
+
+```html
+<ul>
+  <li>Name: {{ name }}</li>
+</ul>
+```
+
+Add a `constructor` to the class to initialize it and add typing to our variable declarations.
+
+```js
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-vessels',
+  templateUrl: './vessels.component.html',
+  styleUrls: ['./vessels.component.css']
+})
+export class VesselsComponent {
+
+  name: string
+  age: number
+  thirst: number
+  
+  constructor(){
+    console.log('constructor ran')
+    this.name = 'Rhiney'
+    this.thirst = 100
+  }
+
+}
 
 ```
+
+Try `this.name = 34` to see errors. 
+
+Note that additional typings include boolean, any, void, undefined, arrays and objects.
+
+Add a few methods to our class:
+
+```js
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-vessels',
+  templateUrl: './vessels.component.html',
+  styleUrls: ['./vessels.component.css']
+})
+export class VesselsComponent {
+
+  name: string
+  age: number
+  thirst: number
+  
+  constructor(){
+    console.log('constructor ran')
+    this.name = 'Rhiney'
+    this.age = 12
+    this.thirst = 100
+    this.drink()
+  }
+
+  drink(){
+    this.thirst -= 10
+  }
+
+  showAge(){
+    return this.age
+  }
+
+}
+```
+
+We initialize our class with a call to drink() and we can run a function in our template:
+
+```html
+<ul>
+  <li>Name: {{ name }}</li>
+ <li>Thirst: {{ thirst }}</li>
+ <li>Age: {{ showAge() }}</li>
+</ul>
+
+```
+
+### Interfaces
+
+You can declare a complex variable using 
+
+```js
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-vessels',
+  templateUrl: './vessels.component.html',
+  styleUrls: ['./vessels.component.css']
+})
+export class VesselsComponent {
+
+  pirate: { id:number, name:string, weapons:string[], vessel:boolean }
+
+  
+  constructor(){
+    this.pirate = {
+      id: 1, 
+      name: 'LaFitte',
+      weapons: ['sword', 'cannon'],
+      vessel: true
+    }
+  }
+
+}
+```
+
+Some html:
+
+```html
+<ul>
+  <li>Name: {{ pirate.name }}</li>
+ <li>Vessel: {{ pirate.vessel }}</li>
+ <li>Weapons: {{ pirate.weapons.join(', ') }}</li>
+</ul>
+```
+
+Create an interface for the pirates:
+
+```js
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-vessels',
+  templateUrl: './vessels.component.html',
+  styleUrls: ['./vessels.component.css']
+})
+export class VesselsComponent {
+  
+  constructor(){
+    this.pirate = {
+      id: 1, 
+      name: 'LaFitte',
+      weapons: ['sword', 'cannon'],
+      vessel: true
+    }
+  }
+}
+
+interface Pirate{
+  id:number, 
+  name:string, 
+  weapons:string[], 
+  vessel:boolean
+}
+```
+
+Create Pirate.ts with the interface.
+
+Add export to the interface:  `export interface Pirate{...`
+
+and `iimport { Pirate } from './Pirate'` in the component (top).
+
+```js
+import { Component, OnInit } from '@angular/core';
+import { Pirate } from './Pirate'
+
+@Component({
+  selector: 'app-vessels',
+  templateUrl: './vessels.component.html',
+  styleUrls: ['./vessels.component.css']
+})
+export class VesselsComponent {
+
+  pirate: Pirate;
+  
+  constructor(){
+    this.pirate = {
+      id: 1, 
+      name: 'LaFitte',
+      weapons: ['sword', 'cannon'],
+      vessel: true
+    }
+  }
+}
+```
+
+
+```js
 import { Component } from '@angular/core';
 
 @Component({
@@ -305,16 +523,20 @@ vessels.component.html:
 ### Data Binding
 
 #### Interpolation  DOM < Component  
+
 e.g. expressions `{{ vessel.name }}`
 
-#### One Way Binding  DOM < Component  
+#### One Way Binding  DOM < Component 
+
 e.g `ng-bind` in Angular 1. `[innerText]="vessel.name"` in Angular 2. The square brackets can contain *any valid property in html*. Another example:
 `<div [style.color]="color">{{ vessel.name }}</div>`. This is a big improvement over Angular 1 where we had a ton of directives (see below).
 
 #### Event Binding  DOM > Component  
+
 e.g. `ng-click`. In Angular 2 `(click)`
 
 #### Two Way Binding  DOM < > Component
+
 e.g. `ng-model`. In Angular 2 we use hotdogs (or a football in a box):
 `<input [(ngModel)]="vessel.name" />`
 Check the use of square and rounded brackets in the two cases above. This requires importing the forms module in order to use.
