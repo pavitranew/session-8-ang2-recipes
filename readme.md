@@ -388,7 +388,7 @@ We initialize our class with a call to drink() and we can run a function in our 
 
 ```
 
-### Interfaces
+### Interfaces and Types
 
 You can declare a complex variable using 
 
@@ -463,7 +463,7 @@ Create Pirate.ts with the interface.
 
 Add export to the interface:  `export interface Pirate{...`
 
-and `iimport { Pirate } from './Pirate'` in the component (top).
+and `import { Pirate } from './Pirate'` in the component (top).
 
 ```js
 import { Component, OnInit } from '@angular/core';
@@ -477,6 +477,7 @@ import { Pirate } from './Pirate'
 export class VesselsComponent {
 
   pirate: Pirate;
+  pirates: Pirate[]
   
   constructor(){
     this.pirate = {
@@ -491,12 +492,9 @@ export class VesselsComponent {
 
 Pirates (plural)
 
-
-
-
-
 ```js
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Pirate } from './Pirate'
 
 @Component({
   selector: 'app-vessels',
@@ -505,47 +503,330 @@ import { Component } from '@angular/core';
 })
 export class VesselsComponent {
 
-  vessels = [
-    { id: 1, name: 'Adventure Galley' },
-    { id: 2, name: 'HMS Rackham' },
-    { id: 3, name: 'RNC Sinker' }
-  ];
+  pirate: Pirate;
+  pirates: Pirate[]
 
+  constructor(){
+    this.pirate = {
+      id: 1, 
+      name: 'LaFitte',
+      weapons: ['sword', 'cannon'],
+      vessel: true
+    }
+
+    this.pirates = [
+    { id: 1, name: 'William Kidd', weapons: ['Sword'],  vessel: true, },
+    { id: 2, name: 'Samuel Bellamy', weapons: ['Sword', 'Cannon'],  vessel: false, },
+    { id: 3, name: 'Mary Read', weapons: ['Dagger', 'Cannon', 'Knife'],  vessel: true, },
+    { id: 4, name: 'John Rackham', weapons: ['Cannon', 'Peg Leg'],  vessel: true, },
+    ]
+  }
+}
+
+
+```
+
+## Templates and Styles 
+
+* ngIf, ngSwitch conditionals 
+* ngFor looping
+* ngStyle and ngClass
+* pipes
+
+### Styles
+
+Inline:
+
+```
+@Component({
+  selector: 'app-vessels',
+  templateUrl: './vessels.component.html',
+  styles: [`
+    ul li { font-family: Arial, sans-serif }
+  `]
+})
+```
+
+### ngFor
+
+```
+import { Component, OnInit } from '@angular/core';
+import { Pirate } from './Pirate'
+
+@Component({
+  selector: 'app-vessels',
+  templateUrl: './vessels.component.html',
+  styleUrls: ['./vessels.component.css']
+})
+export class VesselsComponent {
+
+  pirate: Pirate;
+  pirates: Pirate[]
+
+  constructor(){
+    this.pirates = [
+    { id: 1, name: 'William Kidd', weapons: ['Sword'],  vessel: true, },
+    { id: 2, name: 'Samuel Bellamy', weapons: ['Sword', 'Cannon'],  vessel: false, },
+    { id: 3, name: 'Mary Read', weapons: ['Dagger', 'Cannon', 'Knife'],  vessel: true, },
+    { id: 4, name: 'John Rackham', weapons: ['Cannon', 'Peg Leg'],  vessel: true, },
+    ]
+  }
 }
 ```
 
-vessels.component.html:
 
 ```
 <ul>
-  <li *ngFor="let vessel of vessels">
-    {{vessel.name}}
+  <li *ngFor="let pirate of pirates">
+    {{ pirate.name }}
   </li>
 </ul>
-<div *ngIf="vessels.length">
-  <h3>You have {{vessels.length}} vessels</h3>
+```
+
+### ngIf
+
+```
+import { Component, OnInit } from '@angular/core';
+import { Pirate } from './Pirate'
+
+@Component({
+  selector: 'app-vessels',
+  templateUrl: './vessels.component.html',
+  styleUrls: ['./vessels.component.css']
+})
+export class VesselsComponent {
+
+  pirate: Pirate;
+  pirates: Pirate[]
+
+  showPirates: boolean = true;
+
+  constructor(){
+    this.pirates = [
+    { id: 1, name: 'William Kidd', weapons: ['Sword'],  vessel: true, },
+    { id: 2, name: 'Samuel Bellamy', weapons: ['Sword', 'Cannon'],  vessel: false, },
+    { id: 3, name: 'Mary Read', weapons: ['Dagger', 'Cannon', 'Knife'],  vessel: true, },
+    { id: 4, name: 'John Rackham', weapons: ['Cannon', 'Peg Leg'],  vessel: true, },
+    ]
+  }
+}
+```
+
+```
+<ul *ngIf="showPirates">
+  <li *ngFor="let pirate of pirates; let i = index">
+    {{i}} = {{ pirate.name }}
+  </li>
+</ul>
+```
+
+The *not* operator:
+
+`<ul *ngIf="!showPirates">`
+
+```
+<ul *ngIf="showPirates;">
+  <li *ngFor="let pirate of pirates; let i = index">
+    {{i}} = {{ pirate.name }}
+  </li>
+</ul>
+
+<ul *ngIf="!showPirates;">
+  <li>Pirates never really existed</li>
+</ul>
+```
+
+ternary operator:
+
+```
+<ul *ngIf="showPirates">
+  <li *ngFor="let pirate of pirates;">
+    {{ pirate.name }}
+  </li>
+</ul>
+
+<p>{{ showPirates ? 'Pirates are great' : 'Pirates don\'t exist' }}</p>
+```
+
+### ngSwitch
+
+```
+<div [ngSwitch] = "greeting">
+  <div *ngSwitchCase="'1'">Ahoy there</div>
+  <div *ngSwitchDefault>Aaargh!</div>
 </div>
 ```
 
-### Data Binding
+```
+  pirate: Pirate;
+  pirates: Pirate[]
 
-#### Interpolation  DOM < Component  
+  showPirates: boolean = true;
 
-e.g. expressions `{{ vessel.name }}`
+  greeting: number = 1
+```
 
-#### One Way Binding  DOM < Component 
+### Property Binding
 
-e.g `ng-bind` in Angular 1. `[innerText]="vessel.name"` in Angular 2. The square brackets can contain *any valid property in html*. Another example:
-`<div [style.color]="color">{{ vessel.name }}</div>`. This is a big improvement over Angular 1 where we had a ton of directives (see below).
+`ng generate component components/binding`
 
-#### Event Binding  DOM > Component  
+```
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-binding',
+  templateUrl: './binding.component.html',
+  styleUrls: ['./binding.component.css']
+})
+export class BindingComponent {
+  imageUrl = 'https://source.unsplash.com/7bwQXzbF6KE/400x250'
+}
+```
+
+```
+<div>
+  <img src="{{ imageUrl }}" />
+</div>
+
+<div>
+  <img [src]="imageUrl" />
+</div>
+
+<div>
+  <img bind-src="imageUrl" />
+</div>
+```
+
+*One Way Binding  DOM < Component*
+
+```
+isUnchanged: boolean = false
+```
+
+```
+<p [hidden] = "isUnchanged">Pirate has been updated. Hit save.</p>
+<button [disabled] = "isUnchanged">Save</button>
+```
+
+### Classes
+
+```
+styles: [
+  .special {
+    color: green
+  }
+]
+
+isSpecial = true
+canSave = true
+```
+
+```
+<p [class.special]="isSpecial">This class binding is special.</p>
+```
+
+Para is green.
+
+```
+<p [ngClass]="currentClasses">This p is initially special and saveable</p>
+```
+
+```
+  styles: [`
+  .special {
+    color: green
+  }
+  .saveable {
+    text-transform: uppercase
+  }
+  `]
+
+
+  currentClasses = {}
+
+  constructor(){
+    this.setCurrentClasses()
+  }
+  setCurrentClasses(){
+    this.currentClasses = {
+      saveable: this.canSave,
+      special: this.isSpecial
+    }
+  }
+}
+```
+
+ngStyle is similar.
+
+```
+<p [style.font-size]="isSpecial ? 'x-large' : 'smaller' ">Font size depends on isSpecial</p>
+```
+
+### Pipes
+
+```
+givenDay = new Date(1767, 1, 25)
+```
+
+```
+<p>{{ givenDay }} was a blast!</p>
+<p>{{ givenDay | date }} was a blast!</p>
+<p>{{ givenDay | date:"MM-dd-yyyy" }} was a blast!</p>
+<p>Any given day was in {{ givenDay | date:"yyyy" }}</p>
+```
+
+Also good for `| currency` and `| percentage`.
+
+
+## Events and Forms
+
+`ng generate component components/events`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Another example:
+
+`<div [style.color]="color">{{ vessel.name }}</div>`
+
+This is a big improvement over Angular 1 where we had a ton of directives (see below).
+
+*Event Binding  DOM > Component*
 
 e.g. `ng-click`. In Angular 2 `(click)`
 
-#### Two Way Binding  DOM < > Component
+*Two Way Binding  DOM < > Component*
 
 e.g. `ng-model`. In Angular 2 we use hotdogs (or a football in a box):
+
 `<input [(ngModel)]="vessel.name" />`
+
 Check the use of square and rounded brackets in the two cases above. This requires importing the forms module in order to use.
 
 `ng generate component binding`
@@ -555,12 +836,12 @@ app.module:
 ```
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+
 
 import { AppComponent } from './app.component';
-import { VesselsComponent } from './vessels/vessels.component';
-import { BindingComponent } from './binding/binding.component';
+import { VesselsComponent } from './components/vessels/vessels.component';
+import { BindingComponent } from './components/binding/binding.component';
+
 
 @NgModule({
   declarations: [
@@ -569,14 +850,13 @@ import { BindingComponent } from './binding/binding.component';
     BindingComponent
   ],
   imports: [
-    BrowserModule,
-    FormsModule,
-    HttpModule
+    BrowserModule
   ],
   providers: [],
-  bootstrap: [BindingComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
+
 ```
 
 binding.component:
@@ -597,6 +877,10 @@ export class BindingComponent {
 
 }
 ```
+
+app.component.html:
+
+`<app-binding></app-binding>`
 
 binding.component.html:
 

@@ -1,0 +1,28 @@
+
+<p>{{ givenDay }} was a blast!</p>
+<p>{{ givenDay | date }} was a blast!</p>
+<p>{{ givenDay | date:"MM-dd-yyyy" }} was a blast!</p>
+<p>Any given day was in {{ givenDay | date:"yyyy" }}</p>
+
+<p [style.font-size]="isSpecial ? 'x-large' : 'smaller' ">Font size despends on isSpecial</p>
+
+<p [ngClass]="currentClasses">This p is initially special and saveable</p>
+
+
+<p [class.special]="isSpecial">This class binding is special.</p>
+
+
+<p [hidden] = "isUnchanged">Pirate has been updated. Hit save.</p>
+<button [disabled] = "isUnchanged">Save</button>
+
+<div>
+  <img src="{{ imageUrl }}" />
+</div>
+
+<div>
+  <img [src]="imageUrl" />
+</div>
+
+<div>
+  <img bind-src="imageUrl" />
+</div>

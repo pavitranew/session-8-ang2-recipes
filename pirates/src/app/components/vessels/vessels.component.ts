@@ -2,42 +2,28 @@ import { Component, OnInit } from '@angular/core';
 import { Pirate } from './Pirate'
 
 @Component({
-  selector: 'app-vessels',
-  templateUrl: './vessels.component.html',
-  styleUrls: ['./vessels.component.css']
+	selector: 'app-vessels',
+	templateUrl: './vessels.component.html',
+	styleUrls: ['./vessels.component.css']
 })
 export class VesselsComponent {
 
-  pirate: Pirate;
-  pirates: Pirate[]
-  
-  constructor(){
-    this.pirate = {
-      id: 1, 
-      name: 'LaFitte',
-      weapons: ['sword', 'cannon'],
-      vessel: true
-    }
+	pirate: Pirate;
+	pirates: Pirate[]
 
-    this.pirates = [
-    {
-      id: 1, 
-      name: 'LaFitte',
-      weapons: ['sword', 'cannon'],
-      vessel: true
-    },
-    {
-      id: 2, 
-      name: 'LaFitte',
-      weapons: ['sword', 'cannon'],
-      vessel: true
-    },
-    {
-      id: 3, 
-      name: 'LaFitte',
-      weapons: ['sword', 'cannon'],
-      vessel: true
-    },
-    ]
-  }
+	showPirates: boolean = true;
+
+	greeting: number = 2
+
+	imageUrl = 'https://source.unsplash.com/7bwQXzbF6KE/400x250'
+
+	constructor(){
+		this.pirates = [
+		{ id: 1, name: 'William Kidd', weapons: ['Sword'],  vessel: true, },
+		{ id: 2, name: 'Samuel Bellamy', weapons: ['Sword', 'Cannon'],  vessel: false, },
+		{ id: 3, name: 'Mary Read', weapons: ['Dagger', 'Cannon', 'Knife'],  vessel: true, },
+		{ id: 4, name: 'John Rackham', weapons: ['Cannon', 'Peg Leg'],  vessel: true, },
+		]
+	}
 }
+
