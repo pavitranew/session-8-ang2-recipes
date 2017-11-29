@@ -235,9 +235,9 @@ Note: no ng-app.
 
 ng-repeat, ng-if
 
-Structural directives contain a *. They are replacements for [html5 native template tags](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template) (which are a fascinating study in their own right).
+Structural directives contain a `*`. They are replacements for [html5 native template tags](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template) (which are a fascinating study in their own right).
 
-*ngFor, *ngIf
+`*ngFor, *ngIf`
 
 #### Generating Components with the Cli
 
@@ -438,6 +438,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./vessels.component.css']
 })
 export class VesselsComponent {
+
+  pirate: Pirate
   
   constructor(){
     this.pirate = {
@@ -486,6 +488,11 @@ export class VesselsComponent {
   }
 }
 ```
+
+Pirates (plural)
+
+
+
 
 
 ```js
