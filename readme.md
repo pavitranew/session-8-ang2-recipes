@@ -782,9 +782,49 @@ Also good for `| currency` and `| percentage`.
 
 `ng generate component components/events`
 
+```
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-events',
+  template: `
+  <button (click)="fireCannons()">Fire!</button>
+  `
+})
+export class EventsComponent {
+
+  fireCannons(){
+    console.log('boom!')
+  }
+
+  constructor() { }
+
+}
+```
+
+Pass a parameter / event
 
 
+```
+import { Component, OnInit } from '@angular/core';
 
+@Component({
+  selector: 'app-events',
+  template: `
+  <button (click)="fireCannons('How many?', $event)">Fire!</button>
+  `
+})
+export class EventsComponent {
+
+  fireCannons(passed, e){
+    console.log(passed)
+    console.log(e.type)
+  }
+
+  constructor() { }
+
+}
+```
 
 
 
