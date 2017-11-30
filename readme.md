@@ -1,12 +1,7 @@
 # MEAN Session 8
 
-<!-- ## Homework
-Homework: The goal is to make one of the pirate names clickable and display a notificiation below the list that includes the `pirate.name`. There are notes below (in the Notes section) and a working sample in the dev branch of this repo. -->
 
-<!-- ## Reading
-[Angular Quickstart Tutorial](https://angular.io/guide/quickstart) -->
-
-### Typescript Demo
+## Typescript (Demo)
 
 `npm install -g typescript`
 
@@ -36,7 +31,7 @@ document.body.innerHTML = greeter(user);
 
 Compile it on the command line with `$ tsc greeter.ts` and examine the differences.
 
-#### Type annotations
+### Type annotations
 
 `:string`
 
@@ -70,7 +65,7 @@ Re-compiling, you’ll now see an error.
 
 The greeter.js file is still created. TypeScript is warning that your code will likely not run as expected. This will typically occur in your editor.
 
-#### Interfaces. 
+### Interfaces
 
 An interface that describes an object:
 
@@ -91,7 +86,7 @@ document.body.innerHTML = greeter(user);
 
 `$ tsc greeter.ts`
 
-#### Classes
+### Classes
 
 Create a Student class with a constructor and a few public fields. Notice that classes and interfaces play well together
 
@@ -123,7 +118,7 @@ document.body.innerHTML = greeter(user);
 
 
 
-## Angular 2
+## Angular 2 - Modules, Components and Templates
 
 [Install Angular CLI](https://angular.io/docs/ts/latest/cli-quickstart.html)
 
@@ -862,6 +857,193 @@ export class EventsComponent {
 }
 ```
 
+### Forms
+
+`ng generate component components/forms`
+
+This requires importing the forms module in order to use.
+
+in app.module:
+
+```
+import { FormsModule } from '@angular/forms';
+
+  imports: [
+    BrowserModule,
+    FormsModule
+  ],
+```
+
+Build the form using assets in `other/_forms`
+
+
+1: *html Binding  DOM > Component* works for any HTML attribute:
+
+`<p [ngClass]="currentClasses">`
+
+`<img [src]="vehicle.imageUrl">`
+
+2: *Event Binding  DOM > Component* e.g. `ng-click`
+
+In Angular 2 `(click)`
+
+3: *Two Way Binding  DOM < > Component* e.g. `ng-model`. 
+
+In Angular 2 we use hotdogs (or a football in a box):
+
+`<input [(ngModel)]="name" />`
+
+```
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-forms',
+  templateUrl: './forms.component.html',
+  styleUrls: ['./forms.component.css']
+})
+export class FormsComponent implements OnInit {
+
+  name: string = 'testing'
+  number: number = 4
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+}
+```
+
+In the form:
+
+```
+<input [(ngModel)]="name" type="text" name="name" required placeholder="Name" />
+
+<input [(ngModel)]="number" type="number" name="number" min="0" max="10" step="2" required placeholder="Even num < 10">
+```
+
+Add text node to demo data binding
+
+```
+<p>{{ name }} {{ number }}</p>
+```
+
+Add a submit function
+
+```
+pirates: string[] = ['John', 'Maggie', 'Simon']
+
+addPirate(){
+  this.pirates.push(this.name)
+  console.log(this.pirates)
+  this.name = ''
+}
+
+<form (submit)="addPirate()">
+
+```
+
+## Angular 2 - Services
+
+A class that can be used to send functionality and data across multiple components. Keeps apps dry. 
+
+Often used for Ajax calls using the Http module to allow write-once data sharing amongst multiple components.
+
+1. services/my-service.ts
+1. import @Injectable and create class
+1. add as a provider to @ngModule
+1. call from components
+
+`ng generate service services/data` will create the needed files but you still need to add it to ngModule (unlike using cli to create a component)
+
+```
+import { Injectable } from '@angular/core';
+
+@Injectable()
+export class DataService {
+
+  pirates: string[]
+
+  constructor() { 
+    this.pirates = ['Jack', 'Sam', 'Parrot']
+  }
+
+  getPirates(){
+    return this.pirates
+  }
+}
+```
+
+In app.module:
+
+```
+import { DataService } from './services/data.service'
+
+providers: [DataService],
+```
+
+Create a component:
+
+`ng generate component components/data`
+
+`<app-data></app-data>`
+
+In the component:
+
+```
+import {DataService} from '../../services/data.service'
+```
+
+and create a constructor:
+
+```
+import { Component, OnInit } from '@angular/core';
+import {DataService} from '../../services/data.service'
+
+@Component({
+  selector: 'app-data',
+  template: `
+
+  `
+})
+
+export class DataComponent   {
+
+  constructor(public dataService:DataService) {
+    console.log(this.dataService.getPirates())
+  }
+
+}
+
+```
+
+display results from service:
+
+```
+import { Component, OnInit } from '@angular/core';
+import {DataService} from '../../services/data.service'
+
+@Component({
+  selector: 'app-data',
+  template: `
+    <ul>
+      <li *ngFor="let pirate of pirates">
+      {{pirate}}
+      </li>
+    </ul>
+  `
+})
+
+export class DataComponent   {
+
+  pirates: string[]
+
+  constructor(public dataService:DataService) {
+    this.pirates = this.dataService.getPirates())
+  }
+
+}
+```
 
 
 
@@ -879,30 +1061,6 @@ export class EventsComponent {
 
 
 
-
-
-
-
-
-
-
-Another example:
-
-`<div [style.color]="color">{{ vessel.name }}</div>`
-
-This is a big improvement over Angular 1 where we had a ton of directives (see below).
-
-*Event Binding  DOM > Component*
-
-e.g. `ng-click`. In Angular 2 `(click)`
-
-*Two Way Binding  DOM < > Component*
-
-e.g. `ng-model`. In Angular 2 we use hotdogs (or a football in a box):
-
-`<input [(ngModel)]="vessel.name" />`
-
-Check the use of square and rounded brackets in the two cases above. This requires importing the forms module in order to use.
 
 `ng generate component binding`
 
