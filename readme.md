@@ -116,6 +116,9 @@ document.body.innerHTML = greeter(user);
 `$ tsc greeter.ts`
 
 
+## ES6 Classes
+
+See the readme in other/_classes
 
 
 ## Angular 2 - Modules, Components and Templates
@@ -134,10 +137,12 @@ We can use ES5, ES6, or TypeScript to write Angular 2.
 
 We will write all code samples with [TypeScript](http://www.typescriptlang.org). Like SASS is to CSS - a Typescript is a superset of JavaScript with added features.
 
+Note `index.html`, `styles.css`
 
-### app.module.ts
 
-Angular modules
+### Angular modules
+
+app.module.ts:
 
 ```js
 import { BrowserModule } from '@angular/platform-browser';
@@ -158,24 +163,24 @@ import { AppComponent } from './app.component';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-
 ```
 
 Note: 
 * ES6 modules, named imports from node_modules. 
 * Custom imports from local file system `('./ ...')`. 
-* ES6 destructuring syntax `import { BrowserModule }`
+* ES6 export modules syntax: `import { BrowserModule }`
 * ES6 Classes
 
-@Decorators - metadata about components (where to find the template etc.)
-- `@NgModule` decorates the exported class AppModule
-- `imports` replaces Angular 1 dependency injection e.g.: `angular.module('app, [])`
-- bootstrap defines the starting component
-- export AppModule replaces `<div ng-app='app'>` and is our root module
+@Decorators - metadata about components (where to find the template etc.). `@NgModule` decorates the exported class AppModule
+
+- `declarations` are where you will add your components
+- `imports` replaces Angular 1 dependency injection e.g.: `angular.module('app, ['ngRoute'])`
+- `providers` are for services
+- bootstrap defines the starting component. It replaces `<div ng-app='app'>` and is our root module
 
 ### Components
 
-Contains the application logic that controls a portion or region of the view
+`app.component` contains the application logic that controls a portion or region of the view.
 
 ```js
 import { Component } from '@angular/core';
@@ -190,21 +195,11 @@ export class AppComponent {
 }
 ```
 
-Note: `selector` is the tag. In Angular 1 this was a component declaration e.g. `appRoot`
+- `selector` is the custom tag. This is used as `<app-root></app-root>` in `index.html`
+- `@Component` decorates (provides metadata to) the exported component. 
+- TemplateUrl, styleUrls are the paths for the component's html and stylesheets
 
-The @Component decorates (provides metadata to) the exported component. 
-
-TemplateUrl, styleUrls and Selector - the directive to insert the compoent in the html
-
-Components are created, updated and detroyed during ht eapplication lifecycle. We can use this lifecycle to perform actions at each moment via optional lifecycle hooks such as ngOnInit().
-
-### main.ts
-
-The kickoff point for the application:
-
-`platformBrowserDynamic().bootstrapModule(AppModule);`
-
-Which uses the selector in the html file:
+Components are created, updated and detroyed during the application lifecycle. We can use this lifecycle to perform actions at each moment via optional lifecycle hooks such as ngOnInit().
 
 ```html
 <!doctype html>
@@ -226,17 +221,23 @@ Which uses the selector in the html file:
 
 Note: no ng-app.
 
+### main.ts
+
+The kickoff point for the application:
+
+`platformBrowserDynamic().bootstrapModule(AppModule);`
+
 ### Angular 2 Directives
 
-ng-repeat, ng-if
+`*ng-repeat, *ng-if, *ngFor`
 
-Structural directives contain a `*`. They are replacements for [html5 native template tags](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template) (which are a fascinating study in their own right).
-
-`*ngFor, *ngIf`
+Structural directives contain a `*`. They may be considered as replacements for [html5 native template tags](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template) (which are a fascinating study in their own right).
 
 #### Generating Components with the Cli
 
-Try `ng generate component components/vessels`
+Create a components directory in `app`
+
+`ng generate component components/vessels`
 
 Creates a components folder with a vessels component that consists of:
 
@@ -296,7 +297,6 @@ export class VesselsComponent {
   age = 35
 
 }
-
 ```
 
 Edit the vessels.component.html (string interpolation):
@@ -307,7 +307,7 @@ Edit the vessels.component.html (string interpolation):
 </ul>
 ```
 
-Add a `constructor` to the class to initialize it and add typing to our variable declarations.
+Add a `constructor` to the vessels.component class to initialize it and add typing to our variable declarations.
 
 ```js
 import { Component, OnInit } from '@angular/core';
@@ -330,7 +330,6 @@ export class VesselsComponent {
   }
 
 }
-
 ```
 
 Try `this.name = 34` to see errors. 
@@ -472,7 +471,6 @@ import { Pirate } from './Pirate'
 export class VesselsComponent {
 
   pirate: Pirate;
-  pirates: Pirate[]
   
   constructor(){
     this.pirate = {
@@ -517,8 +515,6 @@ export class VesselsComponent {
     ]
   }
 }
-
-
 ```
 
 ## Templates and Styles 
@@ -530,9 +526,9 @@ export class VesselsComponent {
 
 ### Styles
 
-Inline:
+Demo: this is what 'inline' styles look like:
 
-```
+```js
 @Component({
   selector: 'app-vessels',
   templateUrl: './vessels.component.html',
@@ -544,7 +540,7 @@ Inline:
 
 ### ngFor
 
-```
+```js
 import { Component, OnInit } from '@angular/core';
 import { Pirate } from './Pirate'
 
@@ -570,7 +566,7 @@ export class VesselsComponent {
 ```
 
 
-```
+```js
 <ul>
   <li *ngFor="let pirate of pirates">
     {{ pirate.name }}
@@ -580,7 +576,9 @@ export class VesselsComponent {
 
 ### ngIf
 
-```
+Add a boolean to our class:
+
+```js
 import { Component, OnInit } from '@angular/core';
 import { Pirate } from './Pirate'
 
@@ -619,7 +617,7 @@ The *not* `!` operator:
 
 `<ul *ngIf="!showPirates">`
 
-```
+```html
 <ul *ngIf="showPirates;">
   <li *ngFor="let pirate of pirates; let i = index">
     {{i}} = {{ pirate.name }}
@@ -633,7 +631,7 @@ The *not* `!` operator:
 
 ternary operator:
 
-```
+```html
 <ul *ngIf="showPirates">
   <li *ngFor="let pirate of pirates;">
     {{ pirate.name }}
@@ -645,17 +643,14 @@ ternary operator:
 
 ### ngSwitch
 
-```
+```html
 <div [ngSwitch] = "greeting">
   <div *ngSwitchCase="'1'">Ahoy there</div>
   <div *ngSwitchDefault>Aaargh!</div>
 </div>
 ```
 
-```
-  pirate: Pirate;
-  pirates: Pirate[]
-
+```js
   showPirates: boolean = true;
 
   greeting: number = 1
@@ -665,7 +660,11 @@ ternary operator:
 
 `ng generate component components/binding`
 
-```
+app.component:
+
+`<app-binding></app-binding>`
+
+```js
 import { Component } from '@angular/core';
 
 @Component({
@@ -678,7 +677,7 @@ export class BindingComponent {
 }
 ```
 
-```
+```html
 <div>
   <img src="{{ imageUrl }}" />
 </div>
@@ -694,23 +693,33 @@ export class BindingComponent {
 
 *One Way Binding  DOM < Component*
 
-```
-isUnchanged: boolean = false
+binding.component:
+
+```js
+export class BindingComponent {
+
+  isUnchanged: boolean = true
+  imageUrl = 'https://source.unsplash.com/7bwQXzbF6KE/400x250'
+}
 ```
 
-```
+binding.component.html:
+
+```html
 <p [hidden] = "isUnchanged">Pirate has been updated. Hit save.</p>
 <button [disabled] = "isUnchanged">Save</button>
 ```
 
 ### Classes
 
-```
-styles: [
+```js
+styles: [`
   .special {
     color: green
   }
-]
+`]
+
+...
 
 isSpecial = true
 canSave = true
@@ -722,11 +731,11 @@ canSave = true
 
 Para is green.
 
-```
+```html
 <p [ngClass]="currentClasses">This p is initially special and saveable</p>
 ```
 
-```
+```js
   styles: [`
   .special {
     color: green
@@ -753,31 +762,33 @@ Para is green.
 
 ngStyle is similar.
 
-```
+```html
 <p [style.font-size]="isSpecial ? 'x-large' : 'smaller' ">Font size depends on isSpecial</p>
 ```
 
 ### Pipes
 
-```
+```js
 givenDay = new Date(1767, 1, 25)
 ```
 
-```
+```html
 <p>{{ givenDay }} was a blast!</p>
 <p>{{ givenDay | date }} was a blast!</p>
 <p>{{ givenDay | date:"MM-dd-yyyy" }} was a blast!</p>
 <p>Any given day was in {{ givenDay | date:"yyyy" }}</p>
 ```
 
-Also good for `| currency` and `| percentage`.
+[Also good](https://angular.io/api/common/CurrencyPipe) for `| currency` and `| percentage`.
 
 
 ## Events and Forms
 
 `ng generate component components/events`
 
-```
+`<app-events></app-events>`
+
+```js
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -800,7 +811,7 @@ export class EventsComponent {
 Pass a parameter / event
 
 
-```
+```js
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -821,8 +832,10 @@ export class EventsComponent {
 }
 ```
 
+with ngIf:
 
-```
+
+```js
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -861,11 +874,13 @@ export class EventsComponent {
 
 `ng generate component components/forms`
 
+`<app-forms></app-forms>`
+
 This requires importing the forms module in order to use.
 
 in app.module:
 
-```
+```js
 import { FormsModule } from '@angular/forms';
 
   imports: [
@@ -876,6 +891,9 @@ import { FormsModule } from '@angular/forms';
 
 Build the form using assets in `other/_forms`
 
+===
+
+Review:
 
 1: *html Binding  DOM > Component* works for any HTML attribute:
 
@@ -893,7 +911,11 @@ In Angular 2 we use hotdogs (or a football in a box):
 
 `<input [(ngModel)]="name" />`
 
-```
+===
+
+forms.component:
+
+```js
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -916,7 +938,7 @@ export class FormsComponent implements OnInit {
 
 In the form:
 
-```
+```html
 <input [(ngModel)]="name" type="text" name="name" required placeholder="Name" />
 
 <input [(ngModel)]="number" type="number" name="number" min="0" max="10" step="2" required placeholder="Even num < 10">
@@ -924,13 +946,13 @@ In the form:
 
 Add text node to demo data binding
 
-```
+```html
 <p>{{ name }} {{ number }}</p>
 ```
 
 Add a submit function
 
-```
+```js
 pirates: string[] = ['John', 'Maggie', 'Simon']
 
 addPirate(){
@@ -945,18 +967,40 @@ addPirate(){
 
 ## Angular 2 - Services
 
-A class that can be used to send functionality and data across multiple components. Keeps apps dry. 
+A class that can be used to send functionality and data across multiple components. Keeps apps DRY. 
 
-Often used for Ajax calls using the Http module to allow write-once data sharing amongst multiple components.
+- $http.get('api/...') vs 
+- http.get('api/...')
+
+Can return a promise but returns an rxjs observable by default.
+
+Often used:
+
+- for Ajax calls using the Http module to allow write-once data sharing amongst multiple components. 
+- with onInit hooks to load code before rendering.
+
+Steps:
 
 1. services/my-service.ts
 1. import @Injectable and create class
 1. add as a provider to @ngModule
-1. call from components
+1. subscribe to the service's function in a component
 
-`ng generate service services/data` will create the needed files but you still need to add it to ngModule (unlike using cli to create a component)
+`ng generate service services/data` 
 
+will create the needed files but you still need to add it to ngModule (unlike using cli to create a component)
+
+In app.module:
+
+```js
+import { DataService } from './services/data.service'
+
+providers: [DataService],
 ```
+
+data.service:
+
+```js
 import { Injectable } from '@angular/core';
 
 @Injectable()
@@ -974,14 +1018,6 @@ export class DataService {
 }
 ```
 
-In app.module:
-
-```
-import { DataService } from './services/data.service'
-
-providers: [DataService],
-```
-
 Create a component:
 
 `ng generate component components/data`
@@ -990,13 +1026,13 @@ Create a component:
 
 In the component:
 
-```
+```js
 import {DataService} from '../../services/data.service'
 ```
 
-and create a constructor:
+and create a constructor to access the service:
 
-```
+```js
 import { Component, OnInit } from '@angular/core';
 import {DataService} from '../../services/data.service'
 
@@ -1019,7 +1055,7 @@ export class DataComponent   {
 
 display results from service:
 
-```
+```js
 import { Component, OnInit } from '@angular/core';
 import {DataService} from '../../services/data.service'
 
@@ -1056,14 +1092,14 @@ In app.module:
 
 `import { RouterModule, Routes } from '@angular/router'`
 
-```
+```js
 const appRoutes: Routes = [
   {path:'', component:HomeComponent},
   {path:'about', component:AboutComponent}
 ]
 ```
 
-```
+```js
 imports: [
   BrowserModule,
   RouterModule.forRoot(appRoutes)
@@ -1072,33 +1108,26 @@ imports: [
 
 Note the Base href in the main html template.
 
-Add:
-
-```
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-```
-
 navbar.component.html:
 
-```
-<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
-  <div class="container">
-    <a class="navbar-brand" href="#">Navbar</a>
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="#" routerLink="/">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#" routerLink="/about">About</a>
-        </li>
-      </ul>
-  </div>
+```html
+<nav class="navbar">
+  <a href="#">Navbar</a>
+  <ul>
+    <li>
+      <a href="#" routerLink="/">Home</a>
+    </li>
+    <li class="">
+      <a href="#" routerLink="/about">About</a>
+    </li>
+  </ul>
 </nav>
+
 ```
 
 app.component.html:
 
-```
+```html
 <app-navbar></app-navbar>
 <div class="container">
     <router-outlet></router-outlet>
@@ -1112,7 +1141,7 @@ app.component.html:
 
 app.module:
 
-```
+```js
 const appRoutes: Routes = [
   {path:'', component:HomeComponent},
   {path:'about', component:AboutComponent},
@@ -1130,7 +1159,7 @@ variable `id:number;`
 
 and constructor:
 
-```
+```js
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
@@ -1160,9 +1189,9 @@ export class UserDetailsComponent implements OnInit {
 
 ```
 
-user-details.component:
+user-details.component.html:
 
-```
+```html
 <p>
   This is user {{ id }}
 </p>
@@ -1176,46 +1205,7 @@ user-details.component:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+## Notes
 
 
 
@@ -1638,7 +1628,7 @@ Edit the pirates.component.html to show a pirates list.
 
 
 
-### Notes
+### Notes 2
 
 Nested components
 
