@@ -1,5 +1,5 @@
-<div id="wrapper">
-		<form  (submit)="addPirate()"> 
+	<div id="wrapper">
+		<form novalidate> 
 		
 			<fieldset>
 
@@ -9,8 +9,10 @@
 
 					<li>
 						<label for="name">Name:</label>
-						<input [(ngModel)]="name" type="text" name="name" required placeholder="Name" />
+						<input [(ngModel)]="name" #userName="ngModel" minlength="2" type="text" name="name" required placeholder="Name" />
 					</li>
+					<div *ngIf="userName.errors?.required && userName.touched" class="alert">Name is required</div>
+					<div *ngIf="userName.errors?.minlength && userName.touched" class="alert">Name should be longer</div>
 
 					<li>
 						<label for="email">Email:</label>
@@ -24,7 +26,7 @@
 
 					<li>
 						<label for="number">Number:</label> 
-						<input [(ngModel)]="number" type="number" name="number" min="0" max="10" step="2" required placeholder="Even num < 10">
+						<input type="number" name="number" min="0" max="10" step="2" required placeholder="Even num < 10">
 					</li>
 
 					<li>
@@ -46,7 +48,4 @@
 			</fieldset>
 
 		</form>
-
-		<p>{{ pirates }}</p>
-
 	</div>	
