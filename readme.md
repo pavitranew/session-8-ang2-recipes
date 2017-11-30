@@ -1045,6 +1045,166 @@ export class DataComponent   {
 }
 ```
 
+## Angular 2 Router
+
+
+`ng g component components/home`
+`ng g component components/about`
+`ng g component components/navbar`
+
+In app.module:
+
+`import { RouterModule, Routes } from '@angular/router'`
+
+```
+const appRoutes: Routes = [
+  {path:'', component:HomeComponent},
+  {path:'about', component:AboutComponent}
+]
+```
+
+```
+imports: [
+  BrowserModule,
+  RouterModule.forRoot(appRoutes)
+]
+```
+
+Note the Base href in the main html template.
+
+Add:
+
+```
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+```
+
+navbar.component.html:
+
+```
+<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+  <div class="container">
+    <a class="navbar-brand" href="#">Navbar</a>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="#" routerLink="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" routerLink="/about">About</a>
+        </li>
+      </ul>
+  </div>
+</nav>
+```
+
+app.component.html:
+
+```
+<app-navbar></app-navbar>
+<div class="container">
+    <router-outlet></router-outlet>
+</div>
+```
+
+### Params
+
+`ng g component components/userDetails`
+
+
+app.module:
+
+```
+const appRoutes: Routes = [
+  {path:'', component:HomeComponent},
+  {path:'about', component:AboutComponent},
+  {path:'user/:id', component:UserDetailsComponent}
+];
+```
+
+user-details.component:
+
+add;
+
+`import { Router, ActivatedRoute, Params } from '@angular/router';` 
+
+variable `id:number;`
+
+and constructor:
+
+```
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, Params } from '@angular/router';
+
+@Component({
+  selector: 'app-user-details',
+  templateUrl: './user-details.component.html',
+  styleUrls: ['./user-details.component.css']
+})
+export class UserDetailsComponent implements OnInit {
+  id:number;
+
+  constructor(
+    private route:ActivatedRoute,
+    private router:Router
+  ) { 
+    this.route.params.subscribe((params:Params) => {
+      //console.log(params);
+      //console.log(params.id);
+      this.id = params.id;
+    });
+  }
+
+  ngOnInit() {
+  }
+
+}
+
+```
+
+user-details.component:
+
+```
+<p>
+  This is user {{ id }}
+</p>
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
