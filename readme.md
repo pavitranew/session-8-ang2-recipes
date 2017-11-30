@@ -1652,7 +1652,7 @@ pirates.component.html
     {{pirate.name}}
   </li>
 </ul>
-<!-- <my-pirate *ngIf="selectedPirate" [pirate]="selectedPirate"></my-pirate> -->
+ <my-pirate *ngIf="selectedPirate" [pirate]="selectedPirate"></my-pirate> 
 <div *ngIf="pirates.length">
   <h3>You have {{pirates.length}} pirates</h3>
 </div>
