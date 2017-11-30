@@ -965,6 +965,25 @@ addPirate(){
 
 ```
 
+Add rudimentary feedback:
+
+```html
+<label for="name">Name:</label>
+
+<input 
+  [(ngModel)]="name" 
+  #userName="ngModel" 
+  minlength="2"  
+  type="text" 
+  name="name" 
+  required 
+  placeholder="Name" />
+</li>
+
+<div *ngIf="userName.errors?.required && userName.touched" class="alert">Name is required</div>
+<div *ngIf="userName.errors?.minlength && userName.touched" class="alert">Name should be longer</div>
+```
+
 ## Angular 2 - Services
 
 A class that can be used to send functionality and data across multiple components. Keeps apps DRY. 
