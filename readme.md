@@ -1209,7 +1209,7 @@ user-details.component.html:
 
 
 
-
+<!-- 
 
 
 `ng generate component binding`
@@ -1819,7 +1819,7 @@ It simply exports a class.
 
 
 
-
+ -->
 
 
 
