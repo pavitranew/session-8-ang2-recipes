@@ -116,6 +116,9 @@ document.body.innerHTML = greeter(user);
 `$ tsc greeter.ts`
 
 
+## ES6 Classes
+
+See the readme in other/_classes
 
 
 ## Angular 2 - Modules, Components and Templates
