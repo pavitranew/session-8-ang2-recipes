@@ -1,5 +1,5 @@
 # Classes
- 
+
 ## Prototypal inheritance Review
 
 ```html
@@ -54,6 +54,8 @@ Examine the Array. Note the Array prototypes, e.g.:
 
 ```js
 > names.join(', ')
+> names.unshift('Doug')
+> names.push('Daniel')
 > names.pop()
 ```
 
@@ -193,7 +195,7 @@ Car.info()
 
 ```js
 get description() {
-  return `${this.model} is a ${this.make} type of car`;
+  return `${this.model} is a ${this.make} model car`;
 }
 ```
 
@@ -220,6 +222,8 @@ get nicknames() {
   return this.nick.toUpperCase();
 }
 ```
+
+Error:
 
 ```js
 expo.nicknames
@@ -263,6 +267,7 @@ expo.nicknames
 ```
 
 ```js
+> rhino.name
 > rhino
 > rhino.eat('lilies')
 > rhino.eat('hunters')
@@ -285,7 +290,7 @@ class Dog extends Animal {
 ```
 
 ```js
-const yorik = new Dog('Yorik', 'Terrier');
+const yorik = new Dog('Yorik', 'Mutt');
 ```
 
 Super calls the thing (Animal) that you are extending first.
@@ -321,7 +326,35 @@ class Dog extends Animal {
 }
 ```
 
+### Aside - Spread Operator
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Array's ...Spread Operator</title>
+</head>
+<body>
+<script>
+
+  const featured = ['Deep Dish', 'Pepperoni', 'Hawaiian'];
+  const specialty = ['Meatzza', 'Spicy Mama', 'Margherita'];
+
+  const pizzas = [...featured, 'veg', ...specialty];
+  const fridayPizzas = [...pizzas];
+
+</script>
+</body>
+</html>
+
+```
+
 ### Extending Arrays
+
+Making our own classes modelled after Array so they inherit all prototypes of an array.
+
+We can also add properties that are not part of the array.
 
 ```html
 <!DOCTYPE html>
@@ -343,11 +376,18 @@ class Dog extends Animal {
         this.push(movie);
       }
       topRated(limit = 10) {
-        return this.sort((a, b) => (a.stars > b.stars ? -1 : 1)).slice(0, limit);
+        return this.sort( function(firstItem, secondItem) {
+          if (firstItem.stars > firstItem.stars){
+            return 1
+          } else {
+            return -1;
+          }
+        }).slice(0, limit);
       }
     }
 
-    const movies = new MovieCollection('My Favorite Movies',
+    const movies = new MovieCollection(
+      'My Favorite Movies',
       { name: 'Sausage Party', stars: 10 },
       { name: 'Star Wars Trek', stars: 1 },
       { name: 'Virgin Suicides', stars: 7 },
@@ -364,12 +404,11 @@ class Dog extends Animal {
 </html>
 ```
 
-Making our own classes modelled after Array so they inheret all prototypes of an array.
-
 Start off with an array with a property:
 
 ```js
-const movies = new MovieCollection('My Favorite Movies',
+const movies = new MovieCollection(
+  'My Favorite Movies',
   { name: 'Sausage Party', stars: 10 },
   { name: 'Star Wars Trek', stars: 1 },
   { name: 'Virgin Suicides', stars: 7 },
@@ -419,7 +458,7 @@ add(movie) {
 
 returns the key _and_ the name property. The for...in statement iterates over the *enumerable* properties of an object.
 
-More useful will be `for... of` which returns only the array:
+More useful will be `for... of` which returns *only* the array:
 
 ```js
 > for (const movie of movies) { console.log(movie) }
