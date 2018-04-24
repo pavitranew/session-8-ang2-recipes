@@ -1,5 +1,4 @@
-# MEAN Session 8
-
+# VIII Angular 2+
 
 ## Typescript (Demo)
 
