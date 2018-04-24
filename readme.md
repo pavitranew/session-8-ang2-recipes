@@ -682,11 +682,15 @@ ternary operator:
 
 ### Property Binding
 
+Stop `ng serve` and run:
+
 `ng generate component components/binding`
 
-app.component:
+In `app.component.html`:
 
 `<app-binding></app-binding>`
+
+In `binding.component.ts`:
 
 ```js
 import { Component } from '@angular/core';
@@ -700,6 +704,8 @@ export class BindingComponent {
   imageUrl = 'https://source.unsplash.com/7bwQXzbF6KE/400x250'
 }
 ```
+
+In `binding.component.html`:
 
 ```html
 <div>
@@ -715,7 +721,7 @@ export class BindingComponent {
 </div>
 ```
 
-* One Way Binding  DOM < Component*
+* One Way Binding  DOM < Component
 
 binding.component:
 
@@ -734,7 +740,7 @@ binding.component.html:
 <button [disabled] = "isUnchanged">Save</button>
 ```
 
-### Classes
+### HTML Classes
 
 ```js
 styles: [`
@@ -742,7 +748,6 @@ styles: [`
     color: green
   }
 `]
-
 ...
 
 isSpecial = true
@@ -769,7 +774,7 @@ Para is green.
   }
   `]
 
-
+export class BindingComponent {
   currentClasses = {}
 
   constructor(){
@@ -781,13 +786,14 @@ Para is green.
       special: this.isSpecial
     }
   }
+  ...
 }
 ```
 
 ngStyle is similar.
 
 ```html
-<p [style.font-size]="isSpecial ? 'x-large' : 'smaller' ">Font size depends on isSpecial</p>
+<p [style.font-size]="isSpecial ? 'x-large' : 'smaller' ">Font size depends on the value of isSpecial</p>
 ```
 
 ### Pipes
@@ -800,7 +806,7 @@ givenDay = new Date(1767, 1, 25)
 <p>{{ givenDay }} was a blast!</p>
 <p>{{ givenDay | date }} was a blast!</p>
 <p>{{ givenDay | date:"MM-dd-yyyy" }} was a blast!</p>
-<p>Any given day was in {{ givenDay | date:"yyyy" }}</p>
+<p>{{ givenDay | date:"yyyy" }} was a blast!</p>
 ```
 
 [Also good](https://angular.io/api/common/CurrencyPipe) for `| currency` and `| percentage`.
