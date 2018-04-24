@@ -21,7 +21,7 @@
 </html>
 ```
 
-Include a *constructor* function:
+The *constructor* function:
 
 ```js
 function Car(model, make) {
@@ -30,21 +30,23 @@ function Car(model, make) {
 }
 ```
 
-and a car with properties.
+and a car with properties:
+
+`const expo = new Car('Expo', 'Ford');`
 
 Run in the browser's console:
 
-```js
+```sh
 > expo
 ```
 
-### Prototypal inheritance 
+### Prototypal inheritance
 
 Methods on the original constructor will be inherited.
 
 Example: Array Methods
 
-Create an array: 
+Create an array:
 
 ```js
 > const names = ['John', 'Henry']
@@ -54,20 +56,26 @@ Examine the Array. Note the Array prototypes, e.g.:
 
 ```js
 > names.join(', ')
-> names.unshift('Doug')
-> names.push('Daniel')
-> names.pop()
+> names.unshift('Doug') // add to the beginning
+> names.push('Daniel') // add to the end, return new length
+> names.pop() // remove and return the last element
 ```
 
 Add a prototype:
 
 ```js
-Car.prototype.drive = function() {
+function Car(model, make) {
+  this.model = model;
+  this.make = make;
+
+  Car.prototype.drive = function() {
     console.log(`Vroom vroom! I'm a ${this.model}`);
+  }
+
 }
 ```
 
-Add a second car:
+And a second car:
 
 ```js
 const miata = new Car('Miata', 'Mazda');
@@ -104,7 +112,9 @@ Car.prototype.stop = function() {
 > expo.stop()
 ```
 
-### Classes
+### Inheritance and Classes
+
+ES^ offers an alternative syntax to create objects. Let's use them:
 
 ```html
 <!DOCTYPE html>
@@ -114,7 +124,7 @@ Car.prototype.stop = function() {
   <title>Classes</title>
 </head>
 <body>
-  
+
   <script>
     class Car {
       constructor(model, make) {
@@ -199,7 +209,7 @@ get description() {
 }
 ```
 
-* Not a method (no braces when calling)
+* Getters are not methods (no braces when calling)
 
 ```js
 > expo.description
@@ -214,19 +224,13 @@ set nicknames(value) {
 ```
 
 ```js
-expo.nicknames = '   grumbler   '
-```
-
-```js
 get nicknames() {
   return this.nick.toUpperCase();
 }
 ```
 
-Error:
-
 ```js
-expo.nicknames
+expo.nicknames = '   grumbler   '
 ```
 
 ### Extending Classes
@@ -257,7 +261,7 @@ expo.nicknames
         return this.belly;
       }
     }
-    
+
     const rhino = new Animal('Rhiney');
 
   </script>
@@ -310,7 +314,7 @@ class Dog extends Animal {
 > yorik
 ```
 
-Examine the heirarchy in the inspector.
+Examine the hierarchy in the inspector.
 
 Add a bark method:
 
@@ -502,28 +506,8 @@ topRated(limit = 10) {
 > console.table(movies.topRated(2))
 ```
 
-
-Aside: we will be using this in a future exercise 
+Aside: we will be using this in a future exercise
 
 ```js
 Object.keys(movies)
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

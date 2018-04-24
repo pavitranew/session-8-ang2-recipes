@@ -1,10 +1,12 @@
-# VIII Angular 2+
+# MEAN Session 8
 
-## Typescript (Demo)
+## Typescript
+
+Install TypeScript
 
 `npm install -g typescript`
 
-Stub html file:
+Create a stub html file in `other/_typescript`:
 
 ```html
 <!DOCTYPE html>
@@ -62,7 +64,7 @@ Re-compiling, you’ll now see an error.
 
 `$ tsc greeter.ts`
 
-The greeter.js file is still created. TypeScript is warning that your code will likely not run as expected. This will typically occur in your editor.
+The `greeter.js` file is still created. TypeScript is warning you that your code will likely not run as expected. This will typically occur in your editor.
 
 ### Interfaces
 
@@ -114,11 +116,9 @@ document.body.innerHTML = greeter(user);
 
 `$ tsc greeter.ts`
 
-
 ## ES6 Classes
 
 See the readme in other/_classes
-
 
 ## Angular 2 - Modules, Components and Templates
 
@@ -871,16 +871,22 @@ export class EventsComponent {
 
 ### Forms
 
+Run in the terminal:
+
 `ng generate component components/forms`
+
+Change the app.component.html file:
 
 `<app-forms></app-forms>`
 
 This requires importing the forms module in order to use.
 
-in app.module:
+in app.module.ts:
 
 ```js
 import { FormsModule } from '@angular/forms';
+
+...
 
   imports: [
     BrowserModule,
@@ -890,7 +896,7 @@ import { FormsModule } from '@angular/forms';
 
 Build the form using assets in `other/_forms`
 
-===
+<!-- ===
 
 Review:
 
@@ -910,9 +916,9 @@ In Angular 2 we use hotdogs (or a football in a box):
 
 `<input [(ngModel)]="name" />`
 
-===
+=== -->
 
-forms.component:
+forms.component.ts:
 
 ```js
 import { Component, OnInit } from '@angular/core';
@@ -935,7 +941,7 @@ export class FormsComponent implements OnInit {
 }
 ```
 
-In the form:
+In forms.component.html:
 
 ```html
 <input [(ngModel)]="name" type="text" name="name" required placeholder="Name" />
@@ -943,7 +949,7 @@ In the form:
 <input [(ngModel)]="number" type="number" name="number" min="0" max="10" step="2" required placeholder="Even num < 10">
 ```
 
-Add text node to demo data binding
+Add text node to the form.html to see data binding
 
 ```html
 <p>{{ name }} {{ number }}</p>
