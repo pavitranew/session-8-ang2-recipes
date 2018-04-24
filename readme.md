@@ -872,16 +872,22 @@ export class EventsComponent {
 
 ### Forms
 
+Run in the terminal:
+
 `ng generate component components/forms`
+
+Change the app.component.html file:
 
 `<app-forms></app-forms>`
 
 This requires importing the forms module in order to use.
 
-in app.module:
+in app.module.ts:
 
 ```js
 import { FormsModule } from '@angular/forms';
+
+...
 
   imports: [
     BrowserModule,
@@ -891,7 +897,7 @@ import { FormsModule } from '@angular/forms';
 
 Build the form using assets in `other/_forms`
 
-===
+<!-- ===
 
 Review:
 
@@ -911,9 +917,9 @@ In Angular 2 we use hotdogs (or a football in a box):
 
 `<input [(ngModel)]="name" />`
 
-===
+=== -->
 
-forms.component:
+forms.component.ts:
 
 ```js
 import { Component, OnInit } from '@angular/core';
@@ -936,7 +942,7 @@ export class FormsComponent implements OnInit {
 }
 ```
 
-In the form:
+In forms.component.html:
 
 ```html
 <input [(ngModel)]="name" type="text" name="name" required placeholder="Name" />
@@ -944,7 +950,7 @@ In the form:
 <input [(ngModel)]="number" type="number" name="number" min="0" max="10" step="2" required placeholder="Even num < 10">
 ```
 
-Add text node to demo data binding
+Add text node to the form.html to see data binding
 
 ```html
 <p>{{ name }} {{ number }}</p>
