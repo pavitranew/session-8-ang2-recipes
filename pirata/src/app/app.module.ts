@@ -4,12 +4,14 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { VesselsComponent } from './components/vessels/vessels.component';
+import { BindingComponent } from './components/binding/binding.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    VesselsComponent
+    VesselsComponent,
+    BindingComponent
   ],
   imports: [
     BrowserModule
