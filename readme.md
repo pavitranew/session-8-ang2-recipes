@@ -2,6 +2,8 @@
 
 ## Typescript
 
+Like SASS is to CSS - a Typescript is a superset of JavaScript with added features.
+
 Install TypeScript
 
 `npm install -g typescript`
@@ -124,32 +126,33 @@ See the readme in other/_classes
 
 [Install Angular CLI](https://angular.io/docs/ts/latest/cli-quickstart.html)
 
-`$ npm install -g angular-cli`
-
-`$ ng new pirates`
-
-`$ cd pirates`, `subl .` and `$ ng serve`
+```sh
+npm install -g angular-cli
+ng new pirates
+cd pirates
+npm i
+npm install @angular-devkit/core@0.0.29
+code .
+ng serve
+```
 
 App is at `http://localhost:4200/`
 
-We can use ES5, ES6, or TypeScript to write Angular 2. 
+We can use ES5, ES6, or TypeScript to write Angular 2.
 
-We will write all code samples with [TypeScript](http://www.typescriptlang.org). Like SASS is to CSS - a Typescript is a superset of JavaScript with added features.
+We will write all code samples with [TypeScript](http://www.typescriptlang.org).
 
 Note `index.html`, `styles.css`
 
-
 ### Angular modules
 
-app.module.ts:
+`src/app.module.ts`:
 
 ```js
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-
 import { AppComponent } from './app.component';
-
 
 @NgModule({
   declarations: [
@@ -161,25 +164,28 @@ import { AppComponent } from './app.component';
   providers: [],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }
 ```
 
-Note: 
-* ES6 modules, named imports from node_modules. 
-* Custom imports from local file system `('./ ...')`. 
-* ES6 export modules syntax: `import { BrowserModule }`
-* ES6 Classes
+Note:
 
-@Decorators - metadata about components (where to find the template etc.). `@NgModule` decorates the exported class AppModule
+* the use of ES6 modules
+* named imports from node_modules
+* custom imports from local file system `('./ ...')`
+* ES6 export modules syntax `export class AppModule { }`
+* metadata with the `@` sign
 
-- `declarations` are where you will add your components
-- `imports` replaces Angular 1 dependency injection e.g.: `angular.module('app, ['ngRoute'])`
-- `providers` are for services
-- bootstrap defines the starting component. It replaces `<div ng-app='app'>` and is our root module
+@Decorators - provide metadata about components (where to find the template etc.). `@NgModule` decorates the exported class AppModule
+
+* `declarations` are where you will add your components
+* `imports` replaces Angular 1x dependency injection e.g.: `angular.module('app, ['ngRoute'])`
+* `providers` are for services
+* bootstrap defines the starting component - `app.component.ts` - our root component
 
 ### Components
 
-`app.component` contains the application logic that controls a portion or region of the view.
+`app.component.ts` contains the application logic that controls a portion or region of the view.
 
 ```js
 import { Component } from '@angular/core';
@@ -194,11 +200,9 @@ export class AppComponent {
 }
 ```
 
-- `selector` is the custom tag. This is used as `<app-root></app-root>` in `index.html`
-- `@Component` decorates (provides metadata to) the exported component. 
-- TemplateUrl, styleUrls are the paths for the component's html and stylesheets
-
-Components are created, updated and detroyed during the application lifecycle. We can use this lifecycle to perform actions at each moment via optional lifecycle hooks such as ngOnInit().
+* `@Component` decorates (provides metadata to) the exported app component
+* templateUrl, styleUrls are the paths for the component's html and stylesheets
+* `selector` is the custom tag used as `<app-root></app-root>` in `index.html`:
 
 ```html
 <!doctype html>
@@ -215,10 +219,35 @@ Components are created, updated and detroyed during the application lifecycle. W
   <app-root></app-root>
 </body>
 </html>
-
 ```
 
-Note: no ng-app.
+Notice `app.component.html`:
+
+```html
+<!--The content below is only a placeholder and can be replaced.-->
+<div style="text-align:center">
+  <h1>
+    Welcome to {{title}}!
+  </h1>
+  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+</div>
+<h2>Here are some links to help you start: </h2>
+<ul>
+  <li>
+    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
+  </li>
+  <li>
+    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
+  </li>
+  <li>
+    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
+  </li>
+</ul>
+```
+
+This is the default html template for `app.component.ts` and is what we are seeing in the browser.
+
+Components are created, updated and detroyed during the application's lifecycle. We can use this lifecycle to perform actions at each moment via optional lifecycle hooks such as `ngOnInit()`.
 
 ### main.ts
 
@@ -230,7 +259,7 @@ The kickoff point for the application:
 
 `*ng-repeat, *ng-if, *ngFor`
 
-Structural directives contain a `*`. They may be considered as replacements for [html5 native template tags](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template) (which are a fascinating study in their own right).
+Structural directives contain a `*`. They may be considered as replacements for [html5 native template tags](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template) (a fascinating study in their own right).
 
 #### Generating Components with the Cli
 
@@ -238,7 +267,7 @@ Create a components directory in `app`
 
 `ng generate component components/vessels`
 
-Creates a components folder with a vessels component that consists of:
+Creates a `components` folder with a vessels component that consists of:
 
 * vessels.component.ts
 * vessels.component.html
@@ -272,15 +301,17 @@ import { VesselsComponent } from './vessels/vessels.component';
 export class AppModule { }
 ```
 
-Note the selector in vessels.component: `app-vessels`.
+Note the selector in `vessels.component.ts`: `app-vessels`.
 
-Edit app.component.html to use this:
+Edit `app.component.html` to use this:
 
 ```html
 <app-vessels></app-vessels>
 ```
 
-vessels.component - simplify the class statement a bit and add a few variables:
+Simplify the class statement a bit and add a few variables.
+
+In `vessels.component.ts`:
 
 ```js
 import { Component, OnInit } from '@angular/core';
@@ -291,14 +322,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./vessels.component.css']
 })
 export class VesselsComponent {
-
-  name = 'John Doe'
-  age = 35
-
+  name = 'Rhiney'
 }
 ```
 
-Edit the vessels.component.html (string interpolation):
+Edit `vessels.component.html` to use string interpolation:
 
 ```html
 <ul>
@@ -321,17 +349,16 @@ export class VesselsComponent {
   name: string
   age: number
   thirst: number
-  
+
   constructor(){
     console.log('constructor ran')
     this.name = 'Rhiney'
     this.thirst = 100
   }
-
 }
 ```
 
-Try `this.name = 34` to see errors. 
+Try `this.name = 34` to see errors.
 
 Note that additional typings include boolean, any, void, undefined, arrays and objects.
 
@@ -350,7 +377,7 @@ export class VesselsComponent {
   name: string
   age: number
   thirst: number
-  
+
   constructor(){
     console.log('constructor ran')
     this.name = 'Rhiney'
@@ -383,7 +410,7 @@ We initialize our class with a call to drink() and we can run a function in our 
 
 ### Interfaces and Types
 
-You can declare a complex variable using 
+You can declare a complex variable using
 
 ```js
 import { Component, OnInit } from '@angular/core';
@@ -397,10 +424,10 @@ export class VesselsComponent {
 
   pirate: { id:number, name:string, weapons:string[], vessel:boolean }
 
-  
+
   constructor(){
     this.pirate = {
-      id: 1, 
+      id: 1,
       name: 'LaFitte',
       weapons: ['sword', 'cannon'],
       vessel: true
@@ -433,10 +460,10 @@ import { Component, OnInit } from '@angular/core';
 export class VesselsComponent {
 
   pirate: Pirate
-  
+
   constructor(){
     this.pirate = {
-      id: 1, 
+      id: 1,
       name: 'LaFitte',
       weapons: ['sword', 'cannon'],
       vessel: true
@@ -444,19 +471,19 @@ export class VesselsComponent {
   }
 }
 
-interface Pirate{
-  id:number, 
-  name:string, 
-  weapons:string[], 
+interface Pirate {
+  id:number,
+  name:string,
+  weapons:string[],
   vessel:boolean
 }
 ```
 
-Create Pirate.ts with the interface.
+Create `Pirate.ts` and cut / paste the interface into it.
 
-Add export to the interface:  `export interface Pirate{...`
+`export` the interface:  `export interface Pirate{...`
 
-and `import { Pirate } from './Pirate'` in the component (top).
+and `import { Pirate } from './Pirate'` in the component:
 
 ```js
 import { Component, OnInit } from '@angular/core';
@@ -470,10 +497,10 @@ import { Pirate } from './Pirate'
 export class VesselsComponent {
 
   pirate: Pirate;
-  
+
   constructor(){
     this.pirate = {
-      id: 1, 
+      id: 1,
       name: 'LaFitte',
       weapons: ['sword', 'cannon'],
       vessel: true
@@ -500,7 +527,7 @@ export class VesselsComponent {
 
   constructor(){
     this.pirate = {
-      id: 1, 
+      id: 1,
       name: 'LaFitte',
       weapons: ['sword', 'cannon'],
       vessel: true
@@ -516,9 +543,9 @@ export class VesselsComponent {
 }
 ```
 
-## Templates and Styles 
+## Templates and Styles
 
-* ngIf, ngSwitch conditionals 
+* ngIf, ngSwitch conditionals
 * ngFor looping
 * ngStyle and ngClass
 * pipes
@@ -564,8 +591,7 @@ export class VesselsComponent {
 }
 ```
 
-
-```js
+```html
 <ul>
   <li *ngFor="let pirate of pirates">
     {{ pirate.name }}
@@ -604,7 +630,7 @@ export class VesselsComponent {
 }
 ```
 
-```
+```html
 <ul *ngIf="showPirates">
   <li *ngFor="let pirate of pirates; let i = index">
     {{i}} = {{ pirate.name }}
@@ -651,7 +677,6 @@ ternary operator:
 
 ```js
   showPirates: boolean = true;
-
   greeting: number = 1
 ```
 
@@ -690,7 +715,7 @@ export class BindingComponent {
 </div>
 ```
 
-*One Way Binding  DOM < Component*
+* One Way Binding  DOM < Component*
 
 binding.component:
 
@@ -724,7 +749,7 @@ isSpecial = true
 canSave = true
 ```
 
-```
+```html
 <p [class.special]="isSpecial">This class binding is special.</p>
 ```
 
@@ -780,7 +805,6 @@ givenDay = new Date(1767, 1, 25)
 
 [Also good](https://angular.io/api/common/CurrencyPipe) for `| currency` and `| percentage`.
 
-
 ## Events and Forms
 
 `ng generate component components/events`
@@ -809,7 +833,6 @@ export class EventsComponent {
 
 Pass a parameter / event
 
-
 ```js
 import { Component, OnInit } from '@angular/core';
 
@@ -833,7 +856,6 @@ export class EventsComponent {
 
 with ngIf:
 
-
 ```js
 import { Component, OnInit } from '@angular/core';
 
@@ -842,7 +864,7 @@ import { Component, OnInit } from '@angular/core';
   template: `
   <button (click)="fireCannons('How many?', $event)">Fire!</button>
   <br>
-  
+
   <button (click)="changeValue()">Change</button>
   <div *ngIf="value">
     <p>{{ text }}</p>
@@ -975,13 +997,13 @@ Add rudimentary feedback:
 ```html
 <label for="name">Name:</label>
 
-<input 
-  [(ngModel)]="name" 
-  #userName="ngModel" 
-  minlength="2"  
-  type="text" 
-  name="name" 
-  required 
+<input
+  [(ngModel)]="name"
+  #userName="ngModel"
+  minlength="2"
+  type="text"
+  name="name"
+  required
   placeholder="Name" />
 </li>
 
@@ -991,17 +1013,17 @@ Add rudimentary feedback:
 
 ## Angular 2 - Services
 
-A class that can be used to send functionality and data across multiple components. Keeps apps DRY. 
+A class that can be used to send functionality and data across multiple components. Keeps apps DRY.
 
-- $http.get('api/...') vs 
-- http.get('api/...')
+* $http.get('api/...') vs
+* http.get('api/...')
 
 Can return a promise but returns an rxjs observable by default.
 
 Often used:
 
-- for Ajax calls using the Http module to allow write-once data sharing amongst multiple components. 
-- with onInit hooks to load code before rendering.
+* for Ajax calls using the Http module to allow write-once data sharing amongst multiple components.
+* with onInit hooks to load code before rendering.
 
 Steps:
 
@@ -1010,7 +1032,7 @@ Steps:
 1. add as a provider to @ngModule
 1. subscribe to the service's function in a component
 
-`ng generate service services/data` 
+`ng generate service services/data`
 
 will create the needed files but you still need to add it to ngModule (unlike using cli to create a component)
 
@@ -1032,7 +1054,7 @@ export class DataService {
 
   pirates: string[]
 
-  constructor() { 
+  constructor() {
     this.pirates = ['Jack', 'Sam', 'Parrot']
   }
 
@@ -1107,7 +1129,6 @@ export class DataComponent   {
 
 ## Angular 2 Router
 
-
 `ng g component components/home`
 `ng g component components/about`
 `ng g component components/navbar`
@@ -1162,7 +1183,6 @@ app.component.html:
 
 `ng g component components/userDetails`
 
-
 app.module:
 
 ```js
@@ -1177,7 +1197,7 @@ user-details.component:
 
 add;
 
-`import { Router, ActivatedRoute, Params } from '@angular/router';` 
+`import { Router, ActivatedRoute, Params } from '@angular/router';`
 
 variable `id:number;`
 
@@ -1198,7 +1218,7 @@ export class UserDetailsComponent implements OnInit {
   constructor(
     private route:ActivatedRoute,
     private router:Router
-  ) { 
+  ) {
     this.route.params.subscribe((params:Params) => {
       //console.log(params);
       //console.log(params.id);
@@ -1222,19 +1242,9 @@ user-details.component.html:
 
 ```
 
-
-
-
-
-
-
-
 ## Notes
 
-
-
 <!-- 
-
 
 `ng generate component binding`
 
@@ -1244,11 +1254,9 @@ app.module:
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-
 import { AppComponent } from './app.component';
 import { VesselsComponent } from './components/vessels/vessels.component';
 import { BindingComponent } from './components/binding/binding.component';
-
 
 @NgModule({
   declarations: [
@@ -1354,7 +1362,6 @@ export class BindingComponent {
 ng-style, ng-src, ng-href, ng-click
 
 Now: `<img [src]="path' />`, `(click)="save()`, etc.
-
 
 ### Routing 
 
@@ -1494,8 +1501,6 @@ default path
 
 `{ path: '**', pathMatch: 'full', component: PageNotFoundComponent }`
 
-
-
 ```
 import { Component } from '@angular/core';
 
@@ -1571,7 +1576,6 @@ Be sure to add it to the declarations:
   ],
 ```
 
-
 #### pirates
 
 pirates:
@@ -1641,16 +1645,6 @@ export class PiratesComponent {
 ```
 
 Edit the pirates.component.html to show a pirates list.
-
-
-
-
-
-
-
-
-
-
 
 ### Notes 2
 
@@ -1774,9 +1768,6 @@ and
   ],
 ```
 
-
-
-
 ### HTTP 
 - $http.get('api/...') vs 
 - http.get('api/...')
@@ -1789,9 +1780,7 @@ Can return a promise but returns an rxjs observable by default.
 
 In a new api folder in app.
 
-
 =======
-
 
 ### Vessels Service
 
@@ -1841,18 +1830,4 @@ export class VesselService {
 
 It simply exports a class.
 
-
-
  -->
-
-
-
-
-
-
-
-
-
-
-
-
