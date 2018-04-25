@@ -903,13 +903,13 @@ Run in the terminal:
 
 `ng generate component components/forms`
 
-Change the app.component.html file:
+Change the `app.component.html` file:
 
 `<app-forms></app-forms>`
 
 This requires importing the forms module in order to use.
 
-in app.module.ts:
+in `app.module.ts`:
 
 ```js
 import { FormsModule } from '@angular/forms';
@@ -924,7 +924,7 @@ import { FormsModule } from '@angular/forms';
 
 Build the form using assets in `other/_forms`
 
-<!-- ===
+===
 
 Review:
 
@@ -940,13 +940,13 @@ In Angular 2 `(click)`
 
 3: *Two Way Binding  DOM < > Component* e.g. `ng-model`. 
 
-In Angular 2 we use hotdogs (or a football in a box):
+In Angular 2+ use hotdogs (or a football in a box):
 
 `<input [(ngModel)]="name" />`
 
-=== -->
+===
 
-forms.component.ts:
+`forms.component.ts`:
 
 ```js
 import { Component, OnInit } from '@angular/core';
@@ -993,9 +993,10 @@ addPirate(){
   console.log(this.pirates)
   this.name = ''
 }
+```
 
+```html
 <form (submit)="addPirate()">
-
 ```
 
 Add rudimentary feedback:

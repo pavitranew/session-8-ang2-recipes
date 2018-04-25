@@ -1,19 +1,19 @@
-### Forms
+# Forms
 
 * focus
 
-```
+```css
 *:focus{
   outline: none;
 }
 
-input:focus, 
+input:focus,
 textarea:focus {
   box-shadow: 0 0 25px #ccc;
   transform: scale(1.05);
 }
 
-input:not(:focus), 
+input:not(:focus),
 textarea:not(:focus) {
   opacity: 0.5;
 }
@@ -24,20 +24,20 @@ Native browser validation
 * novalidate
 * required, valid, invalid
 
-```
-input:required, 
+```css
+input:required,
 textarea:required {
-  background:url("/assets/asterisk_orange.png") no-repeat 280px 7px;  
+  background:url("/assets/asterisk_orange.png") no-repeat 280px 7px;
 }
 
-input:valid, 
+input:valid,
 textarea:valid {
-  background:url("/assets/tick.png") no-repeat 280px 5px;     
+  background:url("/assets/tick.png") no-repeat 280px 5px;
 }
 
-input:focus:invalid, 
+input:focus:invalid,
 textarea:focus:invalid {
-  background:url("/assets/cancel.png") no-repeat 280px 7px;         
+  background:url("/assets/cancel.png") no-repeat 280px 7px;
 }
 ```
 
@@ -45,7 +45,7 @@ Input types
 
 * text, email, website, number, range
 
-```
+```css
 input[type=submit] {
   color: #fff;
   padding: 10px;
@@ -53,17 +53,17 @@ input[type=submit] {
   opacity: 1.0;
 }
 
-input[type="number"], 
-input[type="number"]:required, 
-input[type="number"]:valid, 
+input[type="number"],
+input[type="number"]:required,
+input[type="number"]:valid,
 input[type="number"]:focus:invalid {
-  background-position: 260px 7px; 
+  background-position: 260px 7px;
 }
 ```
 
 Placeholder text
 
-```
+```css
 ::-webkit-input-placeholder {
    color: #aaa;
 }
