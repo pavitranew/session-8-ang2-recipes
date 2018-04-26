@@ -1,27 +1,5 @@
-// import { Component, OnInit } from '@angular/core';
-
-// @Component({
-//   selector: 'app-vessels',
-//   templateUrl: './vessels.component.html',
-//   styleUrls: ['./vessels.component.css']
-// })
-// export class VesselsComponent {
-
-//   pirate: { id:number, name:string, weapons:string[], vessel:boolean }
-
-
-//   constructor(){
-//     this.pirate = {
-//       id: 1,
-//       name: 'LaFitte',
-//       weapons: ['sword', 'cannon'],
-//       vessel: true
-//     }
-//   }
-
-// }
-
 import { Component, OnInit } from '@angular/core';
+// import {DataService} from '../../services/data.service'
 import { Pirate } from './Pirate'
 
 @Component({
@@ -34,16 +12,16 @@ export class VesselsComponent {
   pirate: Pirate
   pirates: Pirate[]
 
-  showPirates: boolean = true;
+  showPirates: boolean = false;
   greeting: number = 1
 
+  showThem(){
+    this.showPirates = !this.showPirates
+    this.greeting = 0;
+  }
+
   constructor(){
-    this.pirate = {
-      id: 1,
-      name: 'LaFitte',
-      weapons: ['sword', 'cannon'],
-      vessel: true
-    }
+    // this.pirates = this.dataService.getPirates()
     this.pirates = [
       { id: 1, name: 'William Kidd', weapons: ['Sword'],  vessel: true, },
       { id: 2, name: 'Samuel Bellamy', weapons: ['Sword', 'Cannon'],  vessel: false, },

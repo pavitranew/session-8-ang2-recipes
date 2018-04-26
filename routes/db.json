@@ -1,0 +1,8 @@
+{
+   "pirates": [
+      { "id": 1, "name": "William Kidd", "weapons": ["Sword"],  "vessel": true },
+      { "id": 2, "name": "Samuel Bellamy", "weapons": ["Sword", "Cannon"],  "vessel": false },
+      { "id": 3, "name": "Mary Read", "weapons": ["Dagger", "Cannon", "Knife"],  "vessel": true },
+      { "id": 4, "name": "John Rackham", "weapons": ["Cannon", "Peg Leg"],  "vessel": true }
+    ]
+  }
