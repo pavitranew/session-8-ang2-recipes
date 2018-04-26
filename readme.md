@@ -1,14 +1,18 @@
-# MEAN Session 8
+# VIII - Angular 2+
+
+## Homework
+
+Continue to work on your midterms. See session 6 or 7 for instructions.
 
 ## Typescript
 
-Like SASS is to CSS - a Typescript is a superset of JavaScript with added features.
+Like SASS is to CSS - Typescript is a superset of JavaScript which adds features.
 
-Install TypeScript
+[TypeScript](https://www.typescriptlang.org) is supported without a global install and VSCode has excellent support for it. To play with TypeScript on the command line install it globally with:
 
 `npm install -g typescript`
 
-Create a stub html file in `other/_typescript`:
+Use the stub html file in `other/_typescript`:
 
 ```html
 <!DOCTYPE html>
@@ -20,7 +24,7 @@ Create a stub html file in `other/_typescript`:
 </html>
 ```
 
-Create greeter.ts:
+In greeter.ts:
 
 ```js
 function greeter(person) {
@@ -32,11 +36,11 @@ const user = "Jane User";
 document.body.innerHTML = greeter(user);
 ```
 
-Compile it on the command line with `$ tsc greeter.ts` and examine the differences.
+Transpile it to JavaScript on the command line with `$ tsc greeter.ts` and examine the two files.
 
 ### Type annotations
 
-`:string`
+Add a datatype `:string` to the person variable:
 
 ```js
 function greeter(person: string) {
@@ -48,9 +52,9 @@ const user = "Jane User";
 document.body.innerHTML = greeter(user);
 ```
 
-Type annotations in TypeScript are lightweight ways to record the intended contract of the function or variable. In this case, we intend the greeter function to be called with a single string parameter.
+Type annotations in TypeScript are lightweight ways to record the intended data. In this case, we intend the greeter function to be called with a single string parameter.
 
-Try changing the call greeter to pass an array instead:
+Try changing the call greeter to pass an array instead with `var user = [0, 1, 2];`:
 
 ```js
 function greeter(person: string) {
@@ -70,7 +74,7 @@ The `greeter.js` file is still created. TypeScript is warning you that your code
 
 ### Interfaces
 
-An interface that describes an object:
+An interface describes an object:
 
 ```js
 interface Person {
@@ -87,11 +91,13 @@ const user = { firstName: "John", lastName: "Superuser" };
 document.body.innerHTML = greeter(user);
 ```
 
-`$ tsc greeter.ts`
+This time, add a `--watch` flag when converting:
+
+`$ tsc greeter.ts --watch`
 
 ### Classes
 
-Create a Student class with a constructor and a few public fields. Notice that classes and interfaces play well together
+Create a Student using a `constructor` and a few `public` fields. Notice the `class` and `interface`:
 
 ```js
 class Student {
@@ -107,20 +113,585 @@ interface Person {
     lastName: string;
 }
 
-function greeter(person : Person) {
+function greeter(person: Person) {
     return `Yo, ${person.firstName} ${person.middleInitial}. ${person.lastName}`;
 }
 
-var user = new Student("Jane", "M", "User");
+var user = new Student("Jane", "M", "Student");
 
 document.body.innerHTML = greeter(user);
 ```
 
-`$ tsc greeter.ts`
+Compare the JS and TS files.
 
 ## ES6 Classes
 
-See the readme in other/_classes
+Let's take a closer look at ES6 classes.
+
+### Classic Prototypal inheritance
+
+Lets use the contents of `other/_classes` for this.`
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Prototypal Inheritance</title>
+</head>
+<body>
+<script>
+  function Car(model, make) {
+    this.model = model;
+    this.make = make;
+  }
+  const expo = new Car('Expo', 'Ford');
+  console.log(expo);
+</script>
+</body>
+</html>
+```
+
+The *constructor* function:
+
+```js
+function Car(model, make) {
+  this.model = model;
+  this.make = make;
+}
+```
+
+enables creating a new car object with properties:
+
+`const expo = new Car('Expo', 'Ford');`
+
+In the browser console:
+
+```sh
+> expo
+```
+
+### Prototypal inheritance
+
+Methods on the original constructor will be inherited.
+
+Example: Array Methods
+
+Create an array in the console:
+
+```js
+> const names = ['John', 'Henry']
+```
+
+Examine the Array in the console. Note the Array prototypes, e.g.:
+
+```js
+> names.join(', ')
+> names.unshift('Doug') // add to the beginning
+> names.push('Daniel') // add to the end, return new length
+> names.pop() // remove and return the last element
+```
+
+Add a prototype and new car to our car object:
+
+```js
+function Car(model, make) {
+  this.model = model;
+  this.make = make;
+
+  Car.prototype.drive = function() {
+    console.log(`Vroom vroom! I'm a ${this.model}`);
+  }
+}
+const expo = new Car('Expo', 'Ford');
+const miata = new Car('Miata', 'Mazda');
+```
+
+Test drive them in the console:
+
+```js
+> miata.drive()
+> expo.drive()
+```
+
+Add an additional prototype:
+
+```js
+Car.prototype.stop = function() {
+    console.log(`Screech! 🚒 🚑 🚓`);
+}
+```
+
+```js
+> expo.stop()
+```
+
+### Inheritance and Classes
+
+ES6 offers an alternative syntax to create objects. Let's use it:
+
+```js
+class Car {
+  constructor(model, make) {
+    this.model = model;
+    this.make = make;
+  }
+  drive() {
+    console.log(`Vroom vroom 🚗 🚗 🚗! I'm a ${this.model} and I'm a ${this.make}`);
+  }
+  stop() {
+    console.log(`Screech! 🚒 🚑 🚓`);
+  }
+}
+
+const expo = new Car('Expo', 'Ford');
+const miata = new Car('Miata', 'Mazda');
+
+```
+
+In the console:
+
+```js
+> expo
+> expo.drive()
+> expo.stop()
+```
+
+Aside: Static Methods
+
+Static Methods apply to the class, not the objects.
+
+```js
+static info() {
+  console.log('I\'m a static method, cars only need apply' );
+}
+```
+
+```js
+> expo.info()
+> Car.info()
+> expo
+```
+
+Inspect the expo prototype. The static method is *not* inherited.
+
+<!-- ### Static methods on an Array
+
+Array.of and the spread operator:
+
+[Emmet](https://docs.emmet.io/abbreviations/syntax/) (ctrl-e):
+
+`ul>li*4>a[href="#"]{link}`
+
+```js
+> Array.of(1,2,3,4)
+> const links = document.querySelectorAll('li')
+> Array.of(links)
+> Array.of(...links)
+```
+
+But .of is not inerited
+
+```js
+> numbers = [6,7,8,9]
+> numbers.of(1,2,3,4)
+```
+
+e.g. static method - Cars only:
+
+```js
+Car.info()
+``` -->
+
+### Getters and Setters
+
+Create a getter:
+
+```js
+get description() {
+  return `${this.model} is a ${this.make} model car`;
+}
+```
+
+Getters are not methods (no braces when calling)
+
+```js
+> expo.description
+```
+
+View it in the console.
+
+Create a setter:
+
+```js
+set nicknames(value) {
+  this.nick = value.trim();
+}
+```
+
+Now, we *could* now extend our constructor and Car object, i.e.:
+
+```js
+constructor(model, make, nick) {
+  this.model = model;
+  this.make = make;
+  this.nick = nick;
+}
+```
+
+and `const expo = new Car('Expo', 'Ford', 'grumbler');`
+
+But that's not what setters are for.
+
+Let's leave the constructor as is and create a getter:
+
+```js
+get nicknames() {
+  return this.nick.toUpperCase();
+}
+```
+
+Note the lack of parentheses when using getters and setters:
+
+```js
+> expo.nicknames = '   grumbler   '
+> expo.nicknames
+```
+
+Just for fun, try converting our car script from TypeScript by popping it into our `greeter.ts` example from earlier and running `tsc greeter.ts --target ES5` (another method might involve `tsc --init`):
+
+```js
+class Car {
+    constructor(model, make) {
+        this.model = model;
+        this.make = make;
+    }
+    drive() {
+        console.log(`Vroom vroom 🚗 🚗 🚗! I'm a ${this.model} and I'm a ${this.make}`);
+    }
+    stop() {
+        console.log(`Screech! 🚒 🚑 🚓`);
+    }
+    static info() {
+        console.log('I\'m a static method, cars only need apply' );
+    }
+    get description() {
+        return `${this.model} is a ${this.make} model car`;
+    }
+    set nicknames(value) {
+        this.nick = value.trim();
+    }
+    get nicknames() {
+        return this.nick.toUpperCase();
+    }
+}
+
+interface Car {
+    model: string;
+    make: string;
+    nick: string;
+}
+
+const expo = new Car('Expo', 'Ford');
+const miata = new Car('Miata', 'Mazda');
+
+document.body.innerHTML = `Hello ${expo.make}`
+```
+
+Try again using ES6: `tsc greeter.ts --target ES6`
+
+### Extending Classes
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Extending Classes</title>
+</head>
+
+<body>
+  <script>
+    class Animal {
+      constructor(name) {
+        this.name = name;
+        this.thirst = 100;
+        this.belly = [];
+      }
+      drink() {
+        this.thirst -= 10;
+        return this.thirst;
+      }
+      eat(food) {
+        this.belly.push(food);
+        return this.belly;
+      }
+    }
+
+    const rhino = new Animal('Rhiney');
+
+  </script>
+</body>
+
+</html>
+```
+
+And test on the browser:
+
+```js
+> rhino
+> rhino.name
+> rhino.eat('lilies')
+> rhino.eat('hunters')
+> rhino.drink()
+```
+
+#### Super
+
+We want to 'extend' our Animal class to include a subclass, *dogs*, which, unlike other animals, will include a unique property - breed. We extend a class using a the following syntax.
+
+```js
+class Dog extends Animal {
+  constructor(name, breed) {
+    this.name = name;
+    this.breed = breed;
+  }
+}
+```
+
+```js
+const yorik = new Dog('Yorik', 'Mutt');
+```
+
+Note the error on the console.
+
+Super calls the thing (Animal) that you are extending first.
+
+We need to call `super` first and here, super needs a name:
+
+```js
+class Dog extends Animal {
+  constructor(name, breed) {
+    super(name);
+    this.breed = breed;
+  }
+}
+```
+
+```js
+> yorik
+> rhino
+```
+
+Examine the hierarchy in the inspector.
+
+Add a bark method:
+
+```js
+class Dog extends Animal {
+  constructor(name, breed) {
+    super(name);
+    this.breed = breed;
+  }
+  bark() {
+    console.log(`Bark bark my name is ${this.name} and I\'m a ${this.breed}`);
+  }
+}
+```
+
+Needless to say, rhinos do not bark - `rhino.bark()`.
+
+### Aside - Rest Operator
+
+Destructuring arrays:
+
+```js
+team = ['john','jane','doug','sally','tom']
+const [captain, assistant, ...players] = team;
+console.log(captain, assistant, players)
+```
+
+### Aside - Spread Operator
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Array's ...Spread Operator</title>
+</head>
+<body>
+<script>
+
+  const featured = ['Deep Dish', 'Pepperoni', 'Hawaiian'];
+  const specialty = ['Meatzza', 'Spicy Mama', 'Margherita'];
+
+  const pizzas = [...featured, 'veg', ...specialty];
+  const fridayPizzas = [...pizzas];
+
+</script>
+</body>
+</html>
+```
+
+### Extending Arrays
+
+Making our own classes modelled after Array so they inherit all prototypes of an array.
+
+We can also add properties that are not part of the array.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Extending</title>
+</head>
+
+<body>
+  <script>
+    class MovieCollection extends Array {
+      constructor(name, ...items) {
+        super(...items);
+        this.name = name;
+      }
+      add(movie) {
+        this.push(movie);
+      }
+      topRated(limit = 10) {
+        return this.sort( function(firstItem, secondItem) {
+          if (firstItem.stars > firstItem.stars){
+            return 1
+          } else {
+            return -1;
+          }
+        }).slice(0, limit);
+      }
+    }
+
+    const movies = new MovieCollection(
+      'My Favorite Movies',
+      { name: 'Sausage Party', stars: 10 },
+      { name: 'Star Wars Trek', stars: 1 },
+      { name: 'Virgin Suicides', stars: 7 },
+      { name: 'Alice in the Cities', stars: 8 }
+    );
+
+    movies.add({ name: 'Titanic', stars: 5 });
+
+    console.table(movies)
+
+  </script>
+</body>
+
+</html>
+```
+
+Start off with an array with a property:
+
+```js
+const movies = new MovieCollection(
+  'My Favorite Movies',
+  { name: 'Sausage Party', stars: 10 },
+  { name: 'Star Wars Trek', stars: 1 },
+  { name: 'Virgin Suicides', stars: 7 },
+  { name: 'Alice in the Cities', stars: 8 }
+);
+```
+
+We create a class that extends the Array object.
+
+Adding name and using a spread operator to add the items:
+
+```js
+class MovieCollection extends Array {
+  constructor(name, ...items) {
+    super(...items);
+    this.name = name;
+  }
+}
+```
+
+Super calls the Array prototype with a spread operator.
+
+```js
+> movies[4]
+> movies.name
+```
+
+We have an Array that also has properties (possible because in JS, Arrays are objects) e.g:
+
+```js
+typeof [1,2]
+```
+
+Methods using the array prototype methods can be added:
+
+```js
+add(movie) {
+  this.push(movie);
+}
+```
+
+`for... in`:
+
+```js
+> for (const movie in movies){ console.log(movie) }
+```
+
+returns the key _and_ the name property. The for...in statement iterates over the *enumerable* properties of an object.
+
+More useful will be `for... of` which returns *only* the array:
+
+```js
+> for (const movie of movies) { console.log(movie) }
+```
+
+We get the object (not the key) and the property (name) is not shown. The for...of statement creates a loop iterating over *iterable* objects
+
+N.B. for of loops skip over the properties.
+
+topRated:
+
+```js
+topRated(limit = 10) {
+  return this.sort( function(firstItem, secondItem) {
+    if (firstItem.stars > firstItem.stars){
+      return 1
+    } else {
+      return -1;
+    }
+  }).slice(0, limit);
+}
+```
+
+```js
+> movies.topRated()
+```
+
+Refactored with a ternary:
+
+```js
+topRated(limit = 10) {
+  return this.sort((a, b) => (a.stars > b.stars ? -1 : 1)).slice(0, limit);
+}
+```
+
+```js
+> console.table(movies.topRated())
+```
+
+```js
+> console.table(movies.topRated(2))
+```
+
+Aside: we will be using this in a future exercise
+
+```js
+Object.keys(movies)
+```
 
 ## Angular 2 - Modules, Components and Templates
 
@@ -137,12 +708,6 @@ ng serve
 ```
 
 App is at `http://localhost:4200/`
-
-We can use ES5, ES6, or TypeScript to write Angular 2.
-
-We will write all code samples with [TypeScript](http://www.typescriptlang.org).
-
-Note `index.html`, `styles.css`
 
 ### Angular modules
 
@@ -903,13 +1468,13 @@ Run in the terminal:
 
 `ng generate component components/forms`
 
-Change the app.component.html file:
+Change the `app.component.html` file:
 
 `<app-forms></app-forms>`
 
 This requires importing the forms module in order to use.
 
-in app.module.ts:
+in `app.module.ts`:
 
 ```js
 import { FormsModule } from '@angular/forms';
@@ -924,7 +1489,7 @@ import { FormsModule } from '@angular/forms';
 
 Build the form using assets in `other/_forms`
 
-<!-- ===
+===
 
 Review:
 
@@ -938,15 +1503,15 @@ Review:
 
 In Angular 2 `(click)`
 
-3: *Two Way Binding  DOM < > Component* e.g. `ng-model`. 
+3: *Two Way Binding  DOM < > Component* e.g. `ng-model`.
 
-In Angular 2 we use hotdogs (or a football in a box):
+In Angular 2+ use hotdogs (or a football in a box):
 
 `<input [(ngModel)]="name" />`
 
-=== -->
+===
 
-forms.component.ts:
+`forms.component.ts`:
 
 ```js
 import { Component, OnInit } from '@angular/core';
@@ -993,9 +1558,10 @@ addPirate(){
   console.log(this.pirates)
   this.name = ''
 }
+```
 
+```html
 <form (submit)="addPirate()">
-
 ```
 
 Add rudimentary feedback:
@@ -1105,7 +1671,7 @@ export class DataComponent   {
 
 ```
 
-display results from service:
+display the results from the service:
 
 ```js
 import { Component, OnInit } from '@angular/core';
@@ -1157,9 +1723,9 @@ imports: [
 ]
 ```
 
-Note the Base href in the main html template.
+Note the Base href in the main `index.html` template.
 
-navbar.component.html:
+In `navbar.component.html`:
 
 ```html
 <nav class="navbar">
@@ -1176,7 +1742,7 @@ navbar.component.html:
 
 ```
 
-app.component.html:
+In `app.component.html`:
 
 ```html
 <app-navbar></app-navbar>
@@ -1185,7 +1751,11 @@ app.component.html:
 </div>
 ```
 
-### Params
+## Notes
+
+### Parameters
+
+Recall that parameters are used in routes to pass additional information for use in a SPA.
 
 `ng g component components/userDetails`
 
@@ -1199,9 +1769,7 @@ const appRoutes: Routes = [
 ];
 ```
 
-user-details.component:
-
-add;
+In `user-details.component` add:
 
 `import { Router, ActivatedRoute, Params } from '@angular/router';`
 
@@ -1236,7 +1804,6 @@ export class UserDetailsComponent implements OnInit {
   }
 
 }
-
 ```
 
 user-details.component.html:
@@ -1248,7 +1815,7 @@ user-details.component.html:
 
 ```
 
-## Notes
+## More Notes
 
 <!-- 
 
