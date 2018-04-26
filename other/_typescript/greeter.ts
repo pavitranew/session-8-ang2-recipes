@@ -1,35 +1,35 @@
-    class MovieCollection extends Array {
-      constructor(name, ...items) {
-        super(...items);
-        // this.name = name;
-      }
-    //   add(movie) {
-    //     this.push(movie);
-    //   }
-    //   topRated(limit = 10) {
-    //     return this.sort( function(firstItem, secondItem) {
-    //       if (firstItem.stars > firstItem.stars){
-    //         return 1
-    //       } else {
-    //         return -1;
-    //       }
-    //     }).slice(0, limit);
-    //   }
-    }
+class Car {
+  constructor(model, make) {
+      this.model = model;
+      this.make = make;
+  }
+  drive() {
+      console.log(`Vroom vroom 🚗 🚗 🚗! I'm a ${this.model} and I'm a ${this.make}`);
+  }
+  stop() {
+      console.log(`Screech! 🚒 🚑 🚓`);
+  }
+  static info() {
+      console.log('I\'m a static method, cars only need apply' );
+  }
+  get description() {
+      return `${this.model} is a ${this.make} model car`;
+  }
+  set nicknames(value) {
+      this.nick = value.trim();
+  }
+  get nicknames() {
+      return this.nick.toUpperCase();
+  }
+}
 
-    interface MovieCollection {
-        // name: string;
-        // make: string;
-    }
+interface Car {
+  model: string;
+  make: string;
+  nick: string;
+}
 
-    const movies = new MovieCollection(
-      'My Favorite Movies',
-      { name: 'Sausage Party', stars: 10 },
-      { name: 'Star Wars Trek', stars: 1 },
-      { name: 'Virgin Suicides', stars: 7 },
-      { name: 'Alice in the Cities', stars: 8 }
-    );
+const expo = new Car('Expo', 'Ford');
+const miata = new Car('Miata', 'Mazda');
 
-    // movies.add({ name: 'Titanic', stars: 5 });
-
-    document.body.innerHTML = `movies.topRated()`
+document.body.innerHTML = `Hello ${expo.make}`

@@ -54,7 +54,7 @@ document.body.innerHTML = greeter(user);
 
 Type annotations in TypeScript are lightweight ways to record the intended data. In this case, we intend the greeter function to be called with a single string parameter.
 
-Try changing the call greeter to pass an array instead:
+Try changing the call greeter to pass an array instead with `var user = [0, 1, 2];`:
 
 ```js
 function greeter(person: string) {
@@ -74,7 +74,7 @@ The `greeter.js` file is still created. TypeScript is warning you that your code
 
 ### Interfaces
 
-An interface that describes an object:
+An interface describes an object:
 
 ```js
 interface Person {
@@ -91,7 +91,9 @@ const user = { firstName: "John", lastName: "Superuser" };
 document.body.innerHTML = greeter(user);
 ```
 
-`$ tsc greeter.ts`
+This time, add a `--watch` flag when converting:
+
+`$ tsc greeter.ts --watch`
 
 ### Classes
 
@@ -115,20 +117,20 @@ function greeter(person: Person) {
     return `Yo, ${person.firstName} ${person.middleInitial}. ${person.lastName}`;
 }
 
-var user = new Student("Jane", "M", "User");
+var user = new Student("Jane", "M", "Student");
 
 document.body.innerHTML = greeter(user);
 ```
 
-Run `$ tsc greeter.ts` and compare the JS and TS files.
+Compare the JS and TS files.
 
 ## ES6 Classes
 
 Let's take a closer look at ES6 classes.
 
-### Prototypal inheritance
+### Classic Prototypal inheritance
 
-Objects in classic JavaScript:
+Lets use the contents of `other/_classes` for this.`
 
 ```html
 <!DOCTYPE html>
@@ -144,6 +146,7 @@ Objects in classic JavaScript:
     this.make = make;
   }
   const expo = new Car('Expo', 'Ford');
+  console.log(expo);
 </script>
 </body>
 </html>
@@ -195,7 +198,7 @@ Add a prototype and new car to our car object:
 function Car(model, make) {
   this.model = model;
   this.make = make;
-  
+
   Car.prototype.drive = function() {
     console.log(`Vroom vroom! I'm a ${this.model}`);
   }
@@ -227,35 +230,23 @@ Car.prototype.stop = function() {
 
 ES6 offers an alternative syntax to create objects. Let's use it:
 
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Classes</title>
-</head>
-<body>
+```js
+class Car {
+  constructor(model, make) {
+    this.model = model;
+    this.make = make;
+  }
+  drive() {
+    console.log(`Vroom vroom 🚗 🚗 🚗! I'm a ${this.model} and I'm a ${this.make}`);
+  }
+  stop() {
+    console.log(`Screech! 🚒 🚑 🚓`);
+  }
+}
 
-  <script>
-    class Car {
-      constructor(model, make) {
-        this.model = model;
-        this.make = make;
-      }
-      drive() {
-        console.log(`Vroom vroom 🚗 🚗 🚗! I'm a ${this.model} and I'm a ${this.make}`);
-      }
-      stop() {
-        console.log(`Screech! 🚒 🚑 🚓`);
-      }
-    }
+const expo = new Car('Expo', 'Ford');
+const miata = new Car('Miata', 'Mazda');
 
-    const expo = new Car('Expo', 'Ford');
-    const miata = new Car('Miata', 'Mazda');
-
-  </script>
-</body>
-</html>
 ```
 
 In the console:
@@ -266,7 +257,7 @@ In the console:
 > expo.stop()
 ```
 
-### Static Methods
+Aside: Static Methods
 
 Static Methods apply to the class, not the objects.
 
@@ -330,7 +321,7 @@ Getters are not methods (no braces when calling)
 
 View it in the console.
 
-Setters
+Create a setter:
 
 ```js
 set nicknames(value) {
@@ -338,7 +329,7 @@ set nicknames(value) {
 }
 ```
 
-Now we could now extend our constructor, i.e.:
+Now, we *could* now extend our constructor and Car object, i.e.:
 
 ```js
 constructor(model, make, nick) {
@@ -348,9 +339,11 @@ constructor(model, make, nick) {
 }
 ```
 
-and our car object: `const expo = new Car('Expo', 'Ford', 'grumbler');`
+and `const expo = new Car('Expo', 'Ford', 'grumbler');`
 
-But let's leave the constructor as is and create a getter:
+But that's not what setters are for.
+
+Let's leave the constructor as is and create a getter:
 
 ```js
 get nicknames() {
@@ -358,8 +351,11 @@ get nicknames() {
 }
 ```
 
+Note the lack of parentheses when using getters and setters:
+
 ```js
 > expo.nicknames = '   grumbler   '
+> expo.nicknames
 ```
 
 Just for fun, try converting our car script from TypeScript by popping it into our `greeter.ts` example from earlier and running `tsc greeter.ts --target ES5` (another method might involve `tsc --init`):
@@ -468,7 +464,7 @@ class Dog extends Animal {
 const yorik = new Dog('Yorik', 'Mutt');
 ```
 
-Note the error on the console. 
+Note the error on the console.
 
 Super calls the thing (Animal) that you are extending first.
 
@@ -485,6 +481,7 @@ class Dog extends Animal {
 
 ```js
 > yorik
+> rhino
 ```
 
 Examine the hierarchy in the inspector.
@@ -504,6 +501,16 @@ class Dog extends Animal {
 ```
 
 Needless to say, rhinos do not bark - `rhino.bark()`.
+
+### Aside - Rest Operator
+
+Destructuring arrays:
+
+```js
+team = ['john','jane','doug','sally','tom']
+const [captain, assistant, ...players] = team;
+console.log(captain, assistant, players)
+```
 
 ### Aside - Spread Operator
 
@@ -1496,7 +1503,7 @@ Review:
 
 In Angular 2 `(click)`
 
-3: *Two Way Binding  DOM < > Component* e.g. `ng-model`. 
+3: *Two Way Binding  DOM < > Component* e.g. `ng-model`.
 
 In Angular 2+ use hotdogs (or a football in a box):
 
@@ -1744,7 +1751,7 @@ In `app.component.html`:
 </div>
 ```
 
-# Notes
+## Notes
 
 ### Parameters
 
@@ -1808,7 +1815,7 @@ user-details.component.html:
 
 ```
 
-## Notes
+## More Notes
 
 <!-- 
 

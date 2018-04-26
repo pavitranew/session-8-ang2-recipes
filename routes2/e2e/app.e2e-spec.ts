@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('pirates App', () => {
+describe('routes2 App', () => {
   let page: AppPage;
 
   beforeEach(() => {

@@ -3,44 +3,43 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Extending</title>
+  <title>Extending Classes</title>
 </head>
 
 <body>
   <script>
-    const team = ['Daniel','Harry','Doug','John','Jack']
-    const [captain, assistant, ...player] = team;
-    class MovieCollection extends Array {
-      constructor(name, ...items) {
-        super(...items);
+
+    team = ['john','jane','doug','sally','tom']
+    const [captain, assistant, ...players] = team;
+    console.log(captain, assistant, players)
+
+    class Animal {
+      constructor(name) {
         this.name = name;
+        this.thirst = 100;
+        this.belly = [];
       }
-      add(movie) {
-        this.push(movie);
+      drink() {
+        this.thirst -= 10;
+        return this.thirst;
       }
-      topRated(limit = 10) {
-        return this.sort( function(firstItem, secondItem) {
-          if (firstItem.stars > firstItem.stars){
-            return 1
-          } else {
-            return -1;
-          }
-        }).slice(0, limit);
+      eat(food) {
+        this.belly.push(food);
+        return this.belly;
       }
     }
-
-    const movies = new MovieCollection(
-      'My Favorite Movies',
-      { name: 'Sausage Party', stars: 10 },
-      { name: 'Star Wars Trek', stars: 1 },
-      { name: 'Virgin Suicides', stars: 7 },
-      { name: 'Alice in the Cities', stars: 8 }
-    );
-
-    movies.add({ name: 'Titanic', stars: 5 });
-
-    console.table(movies.topRated())
-
+    
+    class Dog extends Animal {
+      constructor(name, breed) {
+        super(name);
+        this.name = name;
+        this.breed = breed;
+      }
+    }
+    
+    const yorik = new Dog('Yorik', 'Mutt');
+    const rhino = new Animal('Rhiney');
+    
   </script>
 </body>
 
