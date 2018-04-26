@@ -1,14 +1,14 @@
-# MEAN Session 8
+# VIII - Angular 2+
 
 ## Typescript
 
-Like SASS is to CSS - a Typescript is a superset of JavaScript with added features.
+Like SASS is to CSS - Typescript is a superset of JavaScript which adds features.
 
-Install TypeScript
+Install TypeScript globally:
 
 `npm install -g typescript`
 
-Create a stub html file in `other/_typescript`:
+Use the stub html file in `other/_typescript`:
 
 ```html
 <!DOCTYPE html>
