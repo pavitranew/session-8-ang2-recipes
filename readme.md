@@ -514,7 +514,7 @@ console.log(captain, assistant, players)
 
 ### Aside - Spread Operator
 
-THe spread operator is visually identical to the rest operator (...) but is used to join arrays.
+The spread operator is visually identical to the rest operator (...) but is used to join arrays.
 
 ```js
 const featured = ['Deep Dish', 'Pepperoni', 'Hawaiian'];
