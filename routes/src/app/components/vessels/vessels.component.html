@@ -1,0 +1,18 @@
+<ul>
+  <li>Name: {{ pirate.name }}</li>
+  <li>Vessel: {{ pirate.vessel }}</li>
+  <li>Weapons: {{ pirate.weapons.join(', ') }}</li>
+</ul>
+
+<ul *ngIf="showPirates">
+    <li *ngFor="let pirate of pirates;">
+      {{ pirate.name }}
+    </li>
+  </ul>
+  
+  <p>{{ showPirates ? 'Pirates are great' : 'Pirates don\'t exist' }}</p>
+
+  <div [ngSwitch] = "greeting">
+      <div *ngSwitchCase="'1'">Ahoy there</div>
+      <div *ngSwitchDefault>Aaargh!</div>
+    </div>

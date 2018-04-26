@@ -699,8 +699,8 @@ Object.keys(movies)
 
 ```sh
 npm install -g angular-cli
-ng new pirates
-cd pirates
+ng new routes
+cd routes
 npm i
 npm install @angular-devkit/core@0.0.29
 code .
@@ -820,15 +820,82 @@ The kickoff point for the application:
 
 `platformBrowserDynamic().bootstrapModule(AppModule);`
 
-### Angular 2 Directives
+## Angular 2 Router
+
+```sh
+ng g component components/home
+ng g component components/about
+ng g component components/navbar
+```
+
+Note the automatic registration of the new components in `app.module`:
+
+```js
+...
+import { HomeComponent } from './components/home/home.component';
+import { AboutComponent } from './components/about/about.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+...
+declarations: [
+  AppComponent,
+  HomeComponent,
+  AboutComponent,
+  NavbarComponent
+],
+```
+
+In app.module:
+
+`import { RouterModule, Routes } from '@angular/router'`
+
+```js
+const appRoutes: Routes = [
+  {path:'', component:HomeComponent},
+  {path:'about', component:AboutComponent}
+]
+```
+
+```js
+imports: [
+  BrowserModule,
+  RouterModule.forRoot(appRoutes)
+],
+```
+
+In `app.component.html`:
+
+```html
+<app-navbar></app-navbar>
+<div class="container">
+    <router-outlet></router-outlet>
+</div>
+```
+
+Note the Base href in the main `index.html` template.
+
+In `navbar.component.html`:
+
+```html
+<nav class="navbar">
+  <a href="#">Navbar</a>
+  <ul>
+    <li>
+      <a href="#" routerLink="/">Home</a>
+    </li>
+    <li class="">
+      <a href="#" routerLink="/about">About</a>
+    </li>
+  </ul>
+</nav>
+```
+
+## Angular 2 Directives
 
 `*ng-repeat, *ng-if, *ngFor`
 
 Structural directives contain a `*`. They may be considered as replacements for [html5 native template tags](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template) (a fascinating study in their own right).
 
-#### Generating Components with the Cli
-
-Create a components directory in `app`
+### Generating Components with the Cli
 
 `ng generate component components/vessels`
 
@@ -868,7 +935,7 @@ export class AppModule { }
 
 Note the selector in `vessels.component.ts`: `app-vessels`.
 
-Edit `app.component.html` to use this:
+Edit `app.component.html` to include this:
 
 ```html
 <app-vessels></app-vessels>
@@ -925,7 +992,7 @@ export class VesselsComponent {
 
 Try `this.name = 34` to see errors.
 
-Note that additional typings include boolean, any, void, undefined, arrays and objects.
+Additional typings include boolean, any, void, undefined, arrays and objects.
 
 Add a few methods to our class:
 
@@ -967,15 +1034,14 @@ We initialize our class with a call to drink() and we can run a function in our 
 ```html
 <ul>
   <li>Name: {{ name }}</li>
- <li>Thirst: {{ thirst }}</li>
- <li>Age: {{ showAge() }}</li>
+  <li>Thirst: {{ thirst }}</li>
+  <li>Age: {{ showAge() }}</li>
 </ul>
-
 ```
 
 ### Interfaces and Types
 
-You can declare a complex variable using
+You can declare a complex variable using an object:
 
 ```js
 import { Component, OnInit } from '@angular/core';
@@ -1046,9 +1112,11 @@ interface Pirate {
 
 Create `Pirate.ts` and cut / paste the interface into it.
 
-`export` the interface:  `export interface Pirate{...`
+`export` the interface:
 
-and `import { Pirate } from './Pirate'` in the component:
+`export interface Pirate{...`
+
+and add `import { Pirate } from './Pirate'` in the component:
 
 ```js
 import { Component, OnInit } from '@angular/core';
@@ -1697,58 +1765,6 @@ export class DataComponent   {
   }
 
 }
-```
-
-## Angular 2 Router
-
-`ng g component components/home`
-`ng g component components/about`
-`ng g component components/navbar`
-
-In app.module:
-
-`import { RouterModule, Routes } from '@angular/router'`
-
-```js
-const appRoutes: Routes = [
-  {path:'', component:HomeComponent},
-  {path:'about', component:AboutComponent}
-]
-```
-
-```js
-imports: [
-  BrowserModule,
-  RouterModule.forRoot(appRoutes)
-]
-```
-
-Note the Base href in the main `index.html` template.
-
-In `navbar.component.html`:
-
-```html
-<nav class="navbar">
-  <a href="#">Navbar</a>
-  <ul>
-    <li>
-      <a href="#" routerLink="/">Home</a>
-    </li>
-    <li class="">
-      <a href="#" routerLink="/about">About</a>
-    </li>
-  </ul>
-</nav>
-
-```
-
-In `app.component.html`:
-
-```html
-<app-navbar></app-navbar>
-<div class="container">
-    <router-outlet></router-outlet>
-</div>
 ```
 
 ## Notes

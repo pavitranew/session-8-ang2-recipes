@@ -6,13 +6,12 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { AboutComponent } from './components/about/about.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { UserDetailsComponent } from './components/user-details/user-details.component';
+import { VesselsComponent } from './components/vessels/vessels.component';
 
 const appRoutes: Routes = [
   {path:'', component:HomeComponent},
-  {path:'about', component:AboutComponent},
-  {path:'user/:id', component:UserDetailsComponent}
-];
+  {path:'about', component:AboutComponent}
+]
 
 @NgModule({
   declarations: [
@@ -20,7 +19,7 @@ const appRoutes: Routes = [
     HomeComponent,
     AboutComponent,
     NavbarComponent,
-    UserDetailsComponent
+    VesselsComponent
   ],
   imports: [
     BrowserModule,
