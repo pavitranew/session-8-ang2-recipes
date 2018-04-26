@@ -7,7 +7,6 @@ exports.findAll = function (req, res) {
   });
 };
 
-// exports.findById = function () { };
 exports.findById = function (req, res) {
   const id = req.params.id;
   Recipe.findOne({ '_id': id }, function (err, result) {
@@ -15,7 +14,6 @@ exports.findById = function (req, res) {
   });
 };
 
-// exports.add = function () { };
 exports.add = function (req, res) {
   Recipe.create(req.body, function (err, recipe) {
       if (err) return console.log(err);
@@ -24,7 +22,6 @@ exports.add = function (req, res) {
 }
 
 exports.update = function () { };
-// exports.delete = function () { };
 
 exports.delete = function (req, res) {
   let id = req.params.id;
@@ -34,7 +31,6 @@ exports.delete = function (req, res) {
 };
 
 exports.import = function (req, res) {
-  // Recipe below refers to the mongoose schema. create() is a mongoose method
   Recipe.create(
   {
   "name": "recipe1309",
