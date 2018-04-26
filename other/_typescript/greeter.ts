@@ -11,7 +11,7 @@ interface Person {
     lastName: string;
 }
 
-function greeter(person : Person) {
+function greeter(person: Person) {
     return `Yo, ${person.firstName} ${person.middleInitial}. ${person.lastName}`;
 }
 

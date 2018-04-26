@@ -1,6 +1,6 @@
 # Classes
 
-## Prototypal inheritance Review
+## Prototypal inheritance - review
 
 ```html
 <!DOCTYPE html>

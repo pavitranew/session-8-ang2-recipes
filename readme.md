@@ -4,7 +4,7 @@
 
 Like SASS is to CSS - Typescript is a superset of JavaScript which adds features.
 
-Install TypeScript globally:
+[TypeScript](https://www.typescriptlang.org) is supported without a global install and VSCode has excellent support for it. To play with TypeScript on the command line install it globally with:
 
 `npm install -g typescript`
 
@@ -20,7 +20,7 @@ Use the stub html file in `other/_typescript`:
 </html>
 ```
 
-Create greeter.ts:
+In greeter.ts:
 
 ```js
 function greeter(person) {
@@ -32,11 +32,11 @@ const user = "Jane User";
 document.body.innerHTML = greeter(user);
 ```
 
-Compile it on the command line with `$ tsc greeter.ts` and examine the differences.
+Transpile it to JavaScript on the command line with `$ tsc greeter.ts` and examine the two files.
 
 ### Type annotations
 
-`:string`
+Add a datatype `:string` to the person variable:
 
 ```js
 function greeter(person: string) {
@@ -48,7 +48,7 @@ const user = "Jane User";
 document.body.innerHTML = greeter(user);
 ```
 
-Type annotations in TypeScript are lightweight ways to record the intended contract of the function or variable. In this case, we intend the greeter function to be called with a single string parameter.
+Type annotations in TypeScript are lightweight ways to record the intended data. In this case, we intend the greeter function to be called with a single string parameter.
 
 Try changing the call greeter to pass an array instead:
 
@@ -91,7 +91,7 @@ document.body.innerHTML = greeter(user);
 
 ### Classes
 
-Create a Student class with a constructor and a few public fields. Notice that classes and interfaces play well together
+Create a Student using a `constructor` and a few `public` fields. Notice the `class` and `interface`:
 
 ```js
 class Student {
@@ -107,7 +107,7 @@ interface Person {
     lastName: string;
 }
 
-function greeter(person : Person) {
+function greeter(person: Person) {
     return `Yo, ${person.firstName} ${person.middleInitial}. ${person.lastName}`;
 }
 
@@ -116,7 +116,7 @@ var user = new Student("Jane", "M", "User");
 document.body.innerHTML = greeter(user);
 ```
 
-`$ tsc greeter.ts`
+Run `$ tsc greeter.ts`
 
 ## ES6 Classes
 
