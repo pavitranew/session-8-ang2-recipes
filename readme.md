@@ -1,5 +1,9 @@
 # VIII - Angular 2+
 
+## Homework
+
+Continue to work on your midterms. See session 6 or 7 for instructions.
+
 ## Typescript
 
 Like SASS is to CSS - Typescript is a superset of JavaScript which adds features.
@@ -116,11 +120,571 @@ var user = new Student("Jane", "M", "User");
 document.body.innerHTML = greeter(user);
 ```
 
-Run `$ tsc greeter.ts`
+Run `$ tsc greeter.ts` and compare the JS and TS files.
 
 ## ES6 Classes
 
-See the readme in other/_classes
+Let's take a closer look at ES6 classes.
+
+### Prototypal inheritance
+
+Objects in classic JavaScript:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Prototypal Inheritance</title>
+</head>
+<body>
+<script>
+  function Car(model, make) {
+    this.model = model;
+    this.make = make;
+  }
+  const expo = new Car('Expo', 'Ford');
+</script>
+</body>
+</html>
+```
+
+The *constructor* function:
+
+```js
+function Car(model, make) {
+  this.model = model;
+  this.make = make;
+}
+```
+
+enables creating a new car object with properties:
+
+`const expo = new Car('Expo', 'Ford');`
+
+In the browser console:
+
+```sh
+> expo
+```
+
+### Prototypal inheritance
+
+Methods on the original constructor will be inherited.
+
+Example: Array Methods
+
+Create an array in the console:
+
+```js
+> const names = ['John', 'Henry']
+```
+
+Examine the Array in the console. Note the Array prototypes, e.g.:
+
+```js
+> names.join(', ')
+> names.unshift('Doug') // add to the beginning
+> names.push('Daniel') // add to the end, return new length
+> names.pop() // remove and return the last element
+```
+
+Add a prototype and new car to our car object:
+
+```js
+function Car(model, make) {
+  this.model = model;
+  this.make = make;
+  
+  Car.prototype.drive = function() {
+    console.log(`Vroom vroom! I'm a ${this.model}`);
+  }
+}
+const expo = new Car('Expo', 'Ford');
+const miata = new Car('Miata', 'Mazda');
+```
+
+Test drive them in the console:
+
+```js
+> miata.drive()
+> expo.drive()
+```
+
+Add an additional prototype:
+
+```js
+Car.prototype.stop = function() {
+    console.log(`Screech! 🚒 🚑 🚓`);
+}
+```
+
+```js
+> expo.stop()
+```
+
+### Inheritance and Classes
+
+ES6 offers an alternative syntax to create objects. Let's use it:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Classes</title>
+</head>
+<body>
+
+  <script>
+    class Car {
+      constructor(model, make) {
+        this.model = model;
+        this.make = make;
+      }
+      drive() {
+        console.log(`Vroom vroom 🚗 🚗 🚗! I'm a ${this.model} and I'm a ${this.make}`);
+      }
+      stop() {
+        console.log(`Screech! 🚒 🚑 🚓`);
+      }
+    }
+
+    const expo = new Car('Expo', 'Ford');
+    const miata = new Car('Miata', 'Mazda');
+
+  </script>
+</body>
+</html>
+```
+
+In the console:
+
+```js
+> expo
+> expo.drive()
+> expo.stop()
+```
+
+### Static Methods
+
+Static Methods apply to the class, not the objects.
+
+```js
+static info() {
+  console.log('I\'m a static method, cars only need apply' );
+}
+```
+
+```js
+> expo.info()
+> Car.info()
+> expo
+```
+
+Inspect the expo prototype. The static method is *not* inherited.
+
+<!-- ### Static methods on an Array
+
+Array.of and the spread operator:
+
+[Emmet](https://docs.emmet.io/abbreviations/syntax/) (ctrl-e):
+
+`ul>li*4>a[href="#"]{link}`
+
+```js
+> Array.of(1,2,3,4)
+> const links = document.querySelectorAll('li')
+> Array.of(links)
+> Array.of(...links)
+```
+
+But .of is not inerited
+
+```js
+> numbers = [6,7,8,9]
+> numbers.of(1,2,3,4)
+```
+
+e.g. static method - Cars only:
+
+```js
+Car.info()
+``` -->
+
+### Getters and Setters
+
+Create a getter:
+
+```js
+get description() {
+  return `${this.model} is a ${this.make} model car`;
+}
+```
+
+Getters are not methods (no braces when calling)
+
+```js
+> expo.description
+```
+
+View it in the console.
+
+Setters
+
+```js
+set nicknames(value) {
+  this.nick = value.trim();
+}
+```
+
+Now we could now extend our constructor, i.e.:
+
+```js
+constructor(model, make, nick) {
+  this.model = model;
+  this.make = make;
+  this.nick = nick;
+}
+```
+
+and our car object: `const expo = new Car('Expo', 'Ford', 'grumbler');`
+
+But let's leave the constructor as is and create a getter:
+
+```js
+get nicknames() {
+  return this.nick.toUpperCase();
+}
+```
+
+```js
+> expo.nicknames = '   grumbler   '
+```
+
+Just for fun, try converting our car script from TypeScript by popping it into our `greeter.ts` example from earlier and running `tsc greeter.ts --target ES5` (another method might involve `tsc --init`):
+
+```js
+class Car {
+    constructor(model, make) {
+        this.model = model;
+        this.make = make;
+    }
+    drive() {
+        console.log(`Vroom vroom 🚗 🚗 🚗! I'm a ${this.model} and I'm a ${this.make}`);
+    }
+    stop() {
+        console.log(`Screech! 🚒 🚑 🚓`);
+    }
+    static info() {
+        console.log('I\'m a static method, cars only need apply' );
+    }
+    get description() {
+        return `${this.model} is a ${this.make} model car`;
+    }
+    set nicknames(value) {
+        this.nick = value.trim();
+    }
+    get nicknames() {
+        return this.nick.toUpperCase();
+    }
+}
+
+interface Car {
+    model: string;
+    make: string;
+    nick: string;
+}
+
+const expo = new Car('Expo', 'Ford');
+const miata = new Car('Miata', 'Mazda');
+
+document.body.innerHTML = `Hello ${expo.make}`
+```
+
+Try again using ES6: `tsc greeter.ts --target ES6`
+
+### Extending Classes
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Extending Classes</title>
+</head>
+
+<body>
+  <script>
+    class Animal {
+      constructor(name) {
+        this.name = name;
+        this.thirst = 100;
+        this.belly = [];
+      }
+      drink() {
+        this.thirst -= 10;
+        return this.thirst;
+      }
+      eat(food) {
+        this.belly.push(food);
+        return this.belly;
+      }
+    }
+
+    const rhino = new Animal('Rhiney');
+
+  </script>
+</body>
+
+</html>
+```
+
+And test on the browser:
+
+```js
+> rhino
+> rhino.name
+> rhino.eat('lilies')
+> rhino.eat('hunters')
+> rhino.drink()
+```
+
+#### Super
+
+We want to 'extend' our Animal class to include a subclass, *dogs*, which, unlike other animals, will include a unique property - breed. We extend a class using a the following syntax.
+
+```js
+class Dog extends Animal {
+  constructor(name, breed) {
+    this.name = name;
+    this.breed = breed;
+  }
+}
+```
+
+```js
+const yorik = new Dog('Yorik', 'Mutt');
+```
+
+Note the error on the console. 
+
+Super calls the thing (Animal) that you are extending first.
+
+We need to call `super` first and here, super needs a name:
+
+```js
+class Dog extends Animal {
+  constructor(name, breed) {
+    super(name);
+    this.breed = breed;
+  }
+}
+```
+
+```js
+> yorik
+```
+
+Examine the hierarchy in the inspector.
+
+Add a bark method:
+
+```js
+class Dog extends Animal {
+  constructor(name, breed) {
+    super(name);
+    this.breed = breed;
+  }
+  bark() {
+    console.log(`Bark bark my name is ${this.name} and I\'m a ${this.breed}`);
+  }
+}
+```
+
+Needless to say, rhinos do not bark - `rhino.bark()`.
+
+### Aside - Spread Operator
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Array's ...Spread Operator</title>
+</head>
+<body>
+<script>
+
+  const featured = ['Deep Dish', 'Pepperoni', 'Hawaiian'];
+  const specialty = ['Meatzza', 'Spicy Mama', 'Margherita'];
+
+  const pizzas = [...featured, 'veg', ...specialty];
+  const fridayPizzas = [...pizzas];
+
+</script>
+</body>
+</html>
+```
+
+### Extending Arrays
+
+Making our own classes modelled after Array so they inherit all prototypes of an array.
+
+We can also add properties that are not part of the array.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Extending</title>
+</head>
+
+<body>
+  <script>
+    class MovieCollection extends Array {
+      constructor(name, ...items) {
+        super(...items);
+        this.name = name;
+      }
+      add(movie) {
+        this.push(movie);
+      }
+      topRated(limit = 10) {
+        return this.sort( function(firstItem, secondItem) {
+          if (firstItem.stars > firstItem.stars){
+            return 1
+          } else {
+            return -1;
+          }
+        }).slice(0, limit);
+      }
+    }
+
+    const movies = new MovieCollection(
+      'My Favorite Movies',
+      { name: 'Sausage Party', stars: 10 },
+      { name: 'Star Wars Trek', stars: 1 },
+      { name: 'Virgin Suicides', stars: 7 },
+      { name: 'Alice in the Cities', stars: 8 }
+    );
+
+    movies.add({ name: 'Titanic', stars: 5 });
+
+    console.table(movies)
+
+  </script>
+</body>
+
+</html>
+```
+
+Start off with an array with a property:
+
+```js
+const movies = new MovieCollection(
+  'My Favorite Movies',
+  { name: 'Sausage Party', stars: 10 },
+  { name: 'Star Wars Trek', stars: 1 },
+  { name: 'Virgin Suicides', stars: 7 },
+  { name: 'Alice in the Cities', stars: 8 }
+);
+```
+
+We create a class that extends the Array object.
+
+Adding name and using a spread operator to add the items:
+
+```js
+class MovieCollection extends Array {
+  constructor(name, ...items) {
+    super(...items);
+    this.name = name;
+  }
+}
+```
+
+Super calls the Array prototype with a spread operator.
+
+```js
+> movies[4]
+> movies.name
+```
+
+We have an Array that also has properties (possible because in JS, Arrays are objects) e.g:
+
+```js
+typeof [1,2]
+```
+
+Methods using the array prototype methods can be added:
+
+```js
+add(movie) {
+  this.push(movie);
+}
+```
+
+`for... in`:
+
+```js
+> for (const movie in movies){ console.log(movie) }
+```
+
+returns the key _and_ the name property. The for...in statement iterates over the *enumerable* properties of an object.
+
+More useful will be `for... of` which returns *only* the array:
+
+```js
+> for (const movie of movies) { console.log(movie) }
+```
+
+We get the object (not the key) and the property (name) is not shown. The for...of statement creates a loop iterating over *iterable* objects
+
+N.B. for of loops skip over the properties.
+
+topRated:
+
+```js
+topRated(limit = 10) {
+  return this.sort( function(firstItem, secondItem) {
+    if (firstItem.stars > firstItem.stars){
+      return 1
+    } else {
+      return -1;
+    }
+  }).slice(0, limit);
+}
+```
+
+```js
+> movies.topRated()
+```
+
+Refactored with a ternary:
+
+```js
+topRated(limit = 10) {
+  return this.sort((a, b) => (a.stars > b.stars ? -1 : 1)).slice(0, limit);
+}
+```
+
+```js
+> console.table(movies.topRated())
+```
+
+```js
+> console.table(movies.topRated(2))
+```
+
+Aside: we will be using this in a future exercise
+
+```js
+Object.keys(movies)
+```
 
 ## Angular 2 - Modules, Components and Templates
 
@@ -137,12 +701,6 @@ ng serve
 ```
 
 App is at `http://localhost:4200/`
-
-We can use ES5, ES6, or TypeScript to write Angular 2.
-
-We will write all code samples with [TypeScript](http://www.typescriptlang.org).
-
-Note `index.html`, `styles.css`
 
 ### Angular modules
 
@@ -1106,7 +1664,7 @@ export class DataComponent   {
 
 ```
 
-display results from service:
+display the results from the service:
 
 ```js
 import { Component, OnInit } from '@angular/core';
@@ -1158,9 +1716,9 @@ imports: [
 ]
 ```
 
-Note the Base href in the main html template.
+Note the Base href in the main `index.html` template.
 
-navbar.component.html:
+In `navbar.component.html`:
 
 ```html
 <nav class="navbar">
@@ -1177,7 +1735,7 @@ navbar.component.html:
 
 ```
 
-app.component.html:
+In `app.component.html`:
 
 ```html
 <app-navbar></app-navbar>
@@ -1186,7 +1744,11 @@ app.component.html:
 </div>
 ```
 
-### Params
+# Notes
+
+### Parameters
+
+Recall that parameters are used in routes to pass additional information for use in a SPA.
 
 `ng g component components/userDetails`
 
@@ -1200,9 +1762,7 @@ const appRoutes: Routes = [
 ];
 ```
 
-user-details.component:
-
-add;
+In `user-details.component` add:
 
 `import { Router, ActivatedRoute, Params } from '@angular/router';`
 
@@ -1237,7 +1797,6 @@ export class UserDetailsComponent implements OnInit {
   }
 
 }
-
 ```
 
 user-details.component.html:

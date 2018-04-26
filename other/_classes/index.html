@@ -2,41 +2,46 @@
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8">
-	<title>Extending Classes</title>
+  <meta charset="UTF-8">
+  <title>Extending</title>
 </head>
 
 <body>
-	<script>
-		class Animal {
-			constructor(name) {
-				this.name = name;
-				this.thirst = 100;
-				this.belly = [];
-			}
-			drink() {
-				this.thirst -= 10;
-				return this.thirst;
-			}
-			eat(food) {
-				this.belly.push(food);
-				return this.belly;
-			}
-		}
-		
-		class Dog extends Animal {
-			constructor(name, breed) {
-				super(name);
-				this.breed = breed;
-			}
-			bark() {
-				console.log(`Bark bark my name is ${this.name} and I\'m a ${this.breed}`);
-			}
-		}
-		const rhino = new Animal('Rhiney');
-		const yorik = new Dog('Yorik', 'Mutt');
-		
-	</script>
+  <script>
+    const team = ['Daniel','Harry','Doug','John','Jack']
+    const [captain, assistant, ...player] = team;
+    class MovieCollection extends Array {
+      constructor(name, ...items) {
+        super(...items);
+        this.name = name;
+      }
+      add(movie) {
+        this.push(movie);
+      }
+      topRated(limit = 10) {
+        return this.sort( function(firstItem, secondItem) {
+          if (firstItem.stars > firstItem.stars){
+            return 1
+          } else {
+            return -1;
+          }
+        }).slice(0, limit);
+      }
+    }
+
+    const movies = new MovieCollection(
+      'My Favorite Movies',
+      { name: 'Sausage Party', stars: 10 },
+      { name: 'Star Wars Trek', stars: 1 },
+      { name: 'Virgin Suicides', stars: 7 },
+      { name: 'Alice in the Cities', stars: 8 }
+    );
+
+    movies.add({ name: 'Titanic', stars: 5 });
+
+    console.table(movies.topRated())
+
+  </script>
 </body>
 
 </html>

@@ -1,20 +1,35 @@
-class Student {
-    fullName: string;
-    constructor(public firstName, public middleInitial, public lastName) {
-        this.fullName = `${firstName} ${middleInitial} ${lastName}`;
+    class MovieCollection extends Array {
+      constructor(name, ...items) {
+        super(...items);
+        // this.name = name;
+      }
+    //   add(movie) {
+    //     this.push(movie);
+    //   }
+    //   topRated(limit = 10) {
+    //     return this.sort( function(firstItem, secondItem) {
+    //       if (firstItem.stars > firstItem.stars){
+    //         return 1
+    //       } else {
+    //         return -1;
+    //       }
+    //     }).slice(0, limit);
+    //   }
     }
-}
 
-interface Person {
-    firstName: string;
-    middleInitial: string;
-    lastName: string;
-}
+    interface MovieCollection {
+        // name: string;
+        // make: string;
+    }
 
-function greeter(person: Person) {
-    return `Yo, ${person.firstName} ${person.middleInitial}. ${person.lastName}`;
-}
+    const movies = new MovieCollection(
+      'My Favorite Movies',
+      { name: 'Sausage Party', stars: 10 },
+      { name: 'Star Wars Trek', stars: 1 },
+      { name: 'Virgin Suicides', stars: 7 },
+      { name: 'Alice in the Cities', stars: 8 }
+    );
 
-var user = new Student("Jane", "M", "User");
+    // movies.add({ name: 'Titanic', stars: 5 });
 
-document.body.innerHTML = greeter(user);
+    document.body.innerHTML = `movies.topRated()`
