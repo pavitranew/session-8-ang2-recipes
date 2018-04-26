@@ -504,7 +504,7 @@ Needless to say, rhinos do not bark - `rhino.bark()`.
 
 ### Aside - Rest Operator
 
-Destructuring arrays:
+The rest operator (...) is used in destructuring arrays:
 
 ```js
 team = ['john','jane','doug','sally','tom']
@@ -514,25 +514,13 @@ console.log(captain, assistant, players)
 
 ### Aside - Spread Operator
 
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Array's ...Spread Operator</title>
-</head>
-<body>
-<script>
+THe spread operator is visually identical to the rest operator (...) but is used to join arrays.
 
-  const featured = ['Deep Dish', 'Pepperoni', 'Hawaiian'];
-  const specialty = ['Meatzza', 'Spicy Mama', 'Margherita'];
+```js
+const featured = ['Deep Dish', 'Pepperoni', 'Hawaiian'];
+const specialty = ['Meatzza', 'Spicy Mama', 'Margherita'];
 
-  const pizzas = [...featured, 'veg', ...specialty];
-  const fridayPizzas = [...pizzas];
-
-</script>
-</body>
-</html>
+const pizzas = [...featured, 'veg', ...specialty];
 ```
 
 ### Extending Arrays
@@ -541,55 +529,31 @@ Making our own classes modelled after Array so they inherit all prototypes of an
 
 We can also add properties that are not part of the array.
 
-```html
-<!DOCTYPE html>
-<html lang="en">
+```js
+class MovieCollection extends Array {
+  constructor(name, ...items) {
+    super(...items);
+    this.name = name;
+  }
+  add(movie) {
+    this.push(movie);
+  }
+}
 
-<head>
-  <meta charset="UTF-8">
-  <title>Extending</title>
-</head>
+const movies = new MovieCollection(
+  'My Favorite Movies',
+  { name: 'Sausage Party', stars: 10 },
+  { name: 'Star Wars Trek', stars: 1 },
+  { name: 'Virgin Suicides', stars: 7 },
+  { name: 'Alice in the Cities', stars: 8 }
+);
 
-<body>
-  <script>
-    class MovieCollection extends Array {
-      constructor(name, ...items) {
-        super(...items);
-        this.name = name;
-      }
-      add(movie) {
-        this.push(movie);
-      }
-      topRated(limit = 10) {
-        return this.sort( function(firstItem, secondItem) {
-          if (firstItem.stars > firstItem.stars){
-            return 1
-          } else {
-            return -1;
-          }
-        }).slice(0, limit);
-      }
-    }
+movies.add({ name: 'Titanic', stars: 5 });
 
-    const movies = new MovieCollection(
-      'My Favorite Movies',
-      { name: 'Sausage Party', stars: 10 },
-      { name: 'Star Wars Trek', stars: 1 },
-      { name: 'Virgin Suicides', stars: 7 },
-      { name: 'Alice in the Cities', stars: 8 }
-    );
-
-    movies.add({ name: 'Titanic', stars: 5 });
-
-    console.table(movies)
-
-  </script>
-</body>
-
-</html>
+console.table(movies)
 ```
 
-Start off with an array with a property:
+<!-- Start off with an array with a property:
 
 ```js
 const movies = new MovieCollection(
@@ -691,7 +655,7 @@ Aside: we will be using this in a future exercise
 
 ```js
 Object.keys(movies)
-```
+``` -->
 
 ## Angular 2 - Modules, Components and Templates
 
