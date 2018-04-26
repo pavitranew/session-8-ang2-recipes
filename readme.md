@@ -504,7 +504,7 @@ Needless to say, rhinos do not bark - `rhino.bark()`.
 
 ### Aside - Rest Operator
 
-Destructuring arrays:
+The rest operator (...) is used in destructuring arrays:
 
 ```js
 team = ['john','jane','doug','sally','tom']
@@ -514,25 +514,13 @@ console.log(captain, assistant, players)
 
 ### Aside - Spread Operator
 
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Array's ...Spread Operator</title>
-</head>
-<body>
-<script>
+THe spread operator is visually identical to the rest operator (...) but is used to join arrays.
 
-  const featured = ['Deep Dish', 'Pepperoni', 'Hawaiian'];
-  const specialty = ['Meatzza', 'Spicy Mama', 'Margherita'];
+```js
+const featured = ['Deep Dish', 'Pepperoni', 'Hawaiian'];
+const specialty = ['Meatzza', 'Spicy Mama', 'Margherita'];
 
-  const pizzas = [...featured, 'veg', ...specialty];
-  const fridayPizzas = [...pizzas];
-
-</script>
-</body>
-</html>
+const pizzas = [...featured, 'veg', ...specialty];
 ```
 
 ### Extending Arrays
@@ -541,55 +529,31 @@ Making our own classes modelled after Array so they inherit all prototypes of an
 
 We can also add properties that are not part of the array.
 
-```html
-<!DOCTYPE html>
-<html lang="en">
+```js
+class MovieCollection extends Array {
+  constructor(name, ...items) {
+    super(...items);
+    this.name = name;
+  }
+  add(movie) {
+    this.push(movie);
+  }
+}
 
-<head>
-  <meta charset="UTF-8">
-  <title>Extending</title>
-</head>
+const movies = new MovieCollection(
+  'My Favorite Movies',
+  { name: 'Sausage Party', stars: 10 },
+  { name: 'Star Wars Trek', stars: 1 },
+  { name: 'Virgin Suicides', stars: 7 },
+  { name: 'Alice in the Cities', stars: 8 }
+);
 
-<body>
-  <script>
-    class MovieCollection extends Array {
-      constructor(name, ...items) {
-        super(...items);
-        this.name = name;
-      }
-      add(movie) {
-        this.push(movie);
-      }
-      topRated(limit = 10) {
-        return this.sort( function(firstItem, secondItem) {
-          if (firstItem.stars > firstItem.stars){
-            return 1
-          } else {
-            return -1;
-          }
-        }).slice(0, limit);
-      }
-    }
+movies.add({ name: 'Titanic', stars: 5 });
 
-    const movies = new MovieCollection(
-      'My Favorite Movies',
-      { name: 'Sausage Party', stars: 10 },
-      { name: 'Star Wars Trek', stars: 1 },
-      { name: 'Virgin Suicides', stars: 7 },
-      { name: 'Alice in the Cities', stars: 8 }
-    );
-
-    movies.add({ name: 'Titanic', stars: 5 });
-
-    console.table(movies)
-
-  </script>
-</body>
-
-</html>
+console.table(movies)
 ```
 
-Start off with an array with a property:
+<!-- Start off with an array with a property:
 
 ```js
 const movies = new MovieCollection(
@@ -691,18 +655,29 @@ Aside: we will be using this in a future exercise
 
 ```js
 Object.keys(movies)
-```
+``` -->
 
 ## Angular 2 - Modules, Components and Templates
 
 [Install Angular CLI](https://angular.io/docs/ts/latest/cli-quickstart.html)
 
+`npm install -g @angular/cli@latest`
+
+Note: if you need to remove a previous version of the Angular CLI, you can:
+
 ```sh
-npm install -g angular-cli
+npm uninstall -g @angular/cli angular-cli
+npm cache clean
+npm install -g @angular/cli@latest
+```
+
+Create a new project:
+
+```sh
 ng new routes
 cd routes
 npm i
-npm install @angular-devkit/core@0.0.29
+npm install @angular-devkit/core@0.0.29 // might not need
 code .
 ng serve
 ```
@@ -1287,7 +1262,7 @@ The *not* `!` operator:
 </ul>
 ```
 
-ternary operator:
+Use a ternary operator:
 
 ```html
 <ul *ngIf="showPirates">
@@ -1297,6 +1272,20 @@ ternary operator:
 </ul>
 
 <p>{{ showPirates ? 'Pirates are great' : 'Pirates don\'t exist' }}</p>
+```
+
+Add a function to the `vessels.component` class:
+
+```js
+  showThem(){
+    this.showPirates = !this.showPirates
+  }
+```
+
+Create the interface in html:
+
+```html
+<button (click)="showThem()">Pirates!</button>
 ```
 
 ### ngSwitch
@@ -1684,7 +1673,7 @@ import { DataService } from './services/data.service'
 providers: [DataService],
 ```
 
-data.service:
+In `data.service`:
 
 ```js
 import { Injectable } from '@angular/core';
@@ -1704,39 +1693,19 @@ export class DataService {
 }
 ```
 
-Create a component:
-
-`ng generate component components/data`
-
-`<app-data></app-data>`
-
-In the component:
+In a component:
 
 ```js
 import {DataService} from '../../services/data.service'
 ```
 
-and create a constructor to access the service:
+and create/use a constructor to access the service:
 
 ```js
-import { Component, OnInit } from '@angular/core';
-import {DataService} from '../../services/data.service'
-
-@Component({
-  selector: 'app-data',
-  template: `
-
-  `
-})
-
-export class DataComponent   {
-
   constructor(public dataService:DataService) {
     console.log(this.dataService.getPirates())
+    ...
   }
-
-}
-
 ```
 
 display the results from the service:
