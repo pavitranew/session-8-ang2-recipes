@@ -1,0 +1,17 @@
+<!-- <ul>
+  <li>Name: {{ pirate.name }}</li>
+  <li>Vessel: {{ pirate.vessel }}</li>
+  <li>Weapons: {{ pirate.weapons.join(', ') }}</li>
+</ul> -->
+
+<ul *ngIf="showPirates;">
+    <li *ngFor="let pirate of pirates; let i = index">
+      {{i}} = {{ pirate.name }}
+    </li>
+  </ul>
+  
+  <ul *ngIf="!showPirates;">
+    <li>Pirates never really existed</li>
+  </ul>
+
+  <button (click)="showThem()">Pirates!</button>

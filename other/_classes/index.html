@@ -1,10 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
-	<title>Document</title>
+	<title>Extending Classes</title>
 </head>
+
 <body>
-	
+	<script>
+		class Animal {
+			constructor(name) {
+				this.name = name;
+				this.thirst = 100;
+				this.belly = [];
+			}
+			drink() {
+				this.thirst -= 10;
+				return this.thirst;
+			}
+			eat(food) {
+				this.belly.push(food);
+				return this.belly;
+			}
+		}
+		
+		class Dog extends Animal {
+			constructor(name, breed) {
+				// this.name = name;
+				super(name);
+				this.breed = breed;
+			}
+			bark() {
+				console.log(`Bark bark my name is ${this.name} and I\'m a ${this.breed}`);
+			}
+		}
+		
+		const rhino = new Animal('Rhiney');
+		
+		
+		team = ['john','jane','doug','sally','tom']
+		const [captain, assistant, ...players] = team;
+		console.log(captain, assistant, players)
+		
+		const featured = ['Deep Dish', 'Pepperoni', 'Hawaiian'];
+		const specialty = ['Meatzza', 'Spicy Mama', 'Margherita'];
+		
+		const pizzas = [...featured, 'veg', ...specialty];
+		
+		
+		class MovieCollection extends Array {
+			constructor(name, ...items) {
+				super(...items);
+				this.name = name;
+			}
+			add(movie) {
+				this.push(movie);
+			}
+		}
+		
+		const movies = new MovieCollection(
+		'My Favorite Movies',
+		{ name: 'Sausage Party', stars: 10 },
+		{ name: 'Star Wars Trek', stars: 1 },
+		{ name: 'Virgin Suicides', stars: 7 },
+		{ name: 'Alice in the Cities', stars: 8 }
+		);
+		
+		movies.add({ name: 'Titanic', stars: 5 });
+		
+		console.table(movies)
+		
+		
+	</script>
 </body>
+
 </html>
